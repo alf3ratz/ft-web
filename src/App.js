@@ -3,6 +3,7 @@ import AdItem from "./components/AdItem";
 import AdItems from "./components/AdItems";
 import Example1 from "./Example1";
 import {QueryClient, QueryClientProvider} from 'react-query'
+import ChatRoom from "./components/chat/ChatRoom";
 
 const queryClient = new QueryClient()
 //import Counter from "./components/Counter";
@@ -111,7 +112,7 @@ const queryClient = new QueryClient()
 // }
 function App() {
     return (<QueryClientProvider client={queryClient}>
-        <Example1/>
+        <ChatRoom/>
     </QueryClientProvider>)
 }
 
