@@ -1,119 +1,89 @@
-import React, {Component, useEffect, useState} from 'react';
-import AdItem from "./components/AdItem";
-import AdItems from "./components/AdItems";
-import Example1 from "./Example1";
+import React from "react";
+import Paper from "@material-ui/core/Paper";
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
 import {QueryClient, QueryClientProvider} from 'react-query'
 import ChatRoom from "./components/chat/ChatRoom";
+import Recycler from "./components/Recycler";
+import "./App.css"
+import TabsContainer from "./components/TabsContainer";
 
 const queryClient = new QueryClient()
-//import Counter from "./components/Counter";
-//import ClassCounter from "./components/ClassCounter";
+
 
 // const App = () => {
-//     const [users, setUsers] = useState([])
+//     const [value, setValue] = React.useState(2);
 //
-//     const fetchData = () => {
-//         fetch("http://localhost:8080/api/travel/getAllTravels", {
-//             method: "get"
-//         })
-//             .then(response => {
-//                 return response.json()
-//             })
-//             .then(data => {
-//                 setUsers(data)
-//             })
-//     }
+//     return (
+//         <div
+//             // style={{
+//             //     marginLeft: "40%",
+//             // }}
+//         >
+//             <h1>FT Web</h1>
+//             <Paper square>
+//                 <Tabs
+//                     value={value}
+//                     textColor="primary"
+//                     indicatorColor="primary"
+//                     onChange={(event, newValue) => {
+//                         setValue(newValue);
+//                     }}
+//                 >
+//                     <Tab label="Active TAB One">
+//                         <QueryClientProvider client={queryClient}>
+//                             <ChatRoom/>
+//                         </QueryClientProvider>
+//                     </Tab>
+//                     <Tab label="Active TAB Two"/>
+//                     <Tab label="Disabled TAB!" disabled/>
+//                     <Tab label="Active Tab Three"/>
+//                 </Tabs>
+//                 <div>
 //
-//     useEffect(() => {
-//         fetchData()
-//     }, [])
-//
-//     // const [Listofcolors, setListofcolors] = useState([]);
-//     // const [lastKey, setLastKey] = useState();
-//     // const [isLoading, setLoading] = useState(false);
-//     // const [isEmpty, setEmpty] = useState(false);
-//     //
-//     // //const colorRef = db.collection('users').orderBy('datetime', 'desc');
-//     //
-//     // useEffect(() => {
-//     //     colorRef.limit(3).get().then((collections) => {
-//     //         updateState(collections);
-//     //     });
-//     // }, []);
-//     //
-//     // const updateState = (collections) => {
-//     //     const isCollectionEmpty = collections.size === 0;
-//     //     if (!isCollectionEmpty) {
-//     //         const colors = collections.docs.map((color) => color.data());
-//     //         const Lastdoc = collections.docs[collections.docs.length - 1];
-//     //         setListofcolors((Listofcolors) => [...Listofcolors, ...colors]);
-//     //         setLastKey(Lastdoc);
-//     //     } else {
-//     //         setEmpty(true);
-//     //     }
-//     //     setLoading(false);
-//     // }
-//     //
-//     // const fetchMorePosts = () => {
-//     //     setLoading(true);
-//     //     colorRef.startAfter(lastKey).limit(3).get().then((collections) => {
-//     //         updateState(collections);
-//     //     });
-//     // }
-//     //
-//     // if (Listofcolors.length === 0) {
-//     //     return <h1> Loading... </h1>
-//     // }
-//
-//     return (<>
-//         <button onClick={fetchData}>Fetch Users</button>
-//         <div>
-//             {users.length > 0 && (
-//                 <ul>
-//                     {users.map(user => (
-//                         <li key={user.id}>{user.author}</li>
-//                     ))}
-//                 </ul>
-//             )}
+//                 </div>
+//             </Paper>
 //         </div>
-//         {/*<div className="App">*/}
-//         {/*    <h1> Infinite scroll in Firebase (firestore) and React.js </h1>*/}
-//         {/*    <div className="wrapper">*/}
-//         {/*        {Listofcolors.map((item, index) => (*/}
-//         {/*            <div key={index}>*/}
-//         {/*                <div className="wrapper__list">*/}
-//         {/*                    <p><b> Title : </b> {item.title}</p>*/}
-//         {/*                    <p><b> Description : </b>{item.description}</p>*/}
-//         {/*                    <p><b> Date : </b>{item.datetime?.toDate().toLocaleDateString("en-US")}</p>*/}
-//         {/*                </div>*/}
-//         {/*            </div>*/}
-//         {/*        ))}*/}
-//         {/*        {isLoading && <h1> Loading... </h1>}*/}
-//         {/*        {!isLoading && !isEmpty &&*/}
-//         {/*            <button onClick={() => fetchMorePosts()} className="btn__default">More Posts</button>}*/}
-//         {/*        {isEmpty && <h1> There are no more data </h1>}*/}
-//         {/*    </div>*/}
-//         {/*</div>*/}
-//     </>)
-//     // constructor(props) {
-//     //     super(props);
-//     //     this.state = {
-//     //         items:[
-//     //             {
-//     //                 id:1,
-//     //                 placeFrom:"blabla",
-//     //                 placeTo:"blabla",
-//     //                 countOfParticipants:3
-//     //             }
-//     //         ]
-//     //     }
-//     // }
+//     );
+// };
 //
+// export default App;
+// import Tabs from "./components/Tabs";
+// import "./App.css";
+//
+// function App() {
+//     // return (<QueryClientProvider client={queryClient}>
+//     //     <ChatRoom/>
+//     // </QueryClientProvider>)
+//     return (
+//         <div>
+//             <h1>Tabs Demo</h1>
+//             <Tabs>
+//                 <div label="Gator">
+//                     {/*See ya later, <em>Alligator</em>!*/}
+//                     <QueryClientProvider client={queryClient}>
+//                         <Recycler/>
+//                     </QueryClientProvider>
+//                 </div>
+//                 <div label="Croc">
+//                     After 'while, <em>Crocodile</em>!
+//                 </div>
+//                 <div label="Sarcosuchus">
+//                     Nothing to see here, this tab is <em>extinct</em>!
+//                 </div>
+//             </Tabs>
+//             <div>
+//
+//             </div>
+//         </div>
+//     );
 // }
 function App() {
-    return (<QueryClientProvider client={queryClient}>
-        <ChatRoom/>
-    </QueryClientProvider>)
+    return (
+        <>
+            <TabsContainer/>
+        </>
+    );
 }
 
 export default App;

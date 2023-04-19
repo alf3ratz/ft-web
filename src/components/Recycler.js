@@ -1,9 +1,10 @@
 import { useRef, useCallback } from 'react'
-import Post from './Post'
+import Post from '../Post'
 import { useInfiniteQuery } from 'react-query'
-import { getAllTravels } from './api/axios'
+import { getAllTravels } from '../api/axios'
+import "./Recycler.css"
 
-const Example1 = () => {
+const Recycler = () => {
 
     const {
         fetchNextPage, //function
@@ -47,19 +48,19 @@ const Example1 = () => {
 
     return (
         <>
-            <h1 id="top">&infin; Infinite Query &amp; Scroll<br />&infin; Ex. 2 - React Query</h1>
+            <h2 id="top">&infin; Infinite Query &amp; Scroll<br />&infin; Ex. 2 - React Query</h2>
             {content}
             {isFetchingNextPage && <p className="center">Loading More Posts...</p>}
-            <p className="center"><a href="#top">Back to Top</a></p>
+            <p className="center"><a href="src/components/Recycler.js">Back to Top</a></p>
         </>
     )
 }
-export default Example1
+export default Recycler
 // import { useState, useRef, useCallback } from 'react'
 // import usePosts from './hooks/useTravels'
 // import Post from './Post'
 //
-// const Example1 = () => {
+// const Recycler = () => {
 //     const [pageNum, setPageNum] = useState(1)
 //     const {
 //         isLoading,
@@ -103,4 +104,4 @@ export default Example1
 //         </>
 //     )
 // }
-// export default Example1
+// export default Recycler
