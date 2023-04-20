@@ -3,7 +3,7 @@ import axios from 'axios'
 const localUrl = 'http://localhost:8080'
 const prodUrl = 'https://ftapp.herokuapp.com'
 export const api = axios.create({
-    baseURL: localUrl
+    baseURL: prodUrl
 })
 
 export const getAllTravels = async (pageParam = 0, options = {}) => {
