@@ -1,7 +1,4 @@
 import React from "react";
-import Paper from "@material-ui/core/Paper";
-import Tab from "@material-ui/core/Tab";
-import Tabs from "@material-ui/core/Tabs";
 import {QueryClient, QueryClientProvider} from 'react-query'
 import ChatRoom from "./components/chat/ChatRoom";
 import Recycler from "./components/recycler/Recycler";
