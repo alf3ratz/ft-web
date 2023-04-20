@@ -9,7 +9,6 @@ const Post = React.forwardRef(({ post }, ref) => {
             <p>Адрес назначения: {post.placeTo}</p>
             <p>Количество попутчиков: {post.countOfParticipants}</p>
             <p>Дополнительная информация: {post.comment}</p>
-            <p>Travel ID: {post.id}</p>
         </>
     )
 

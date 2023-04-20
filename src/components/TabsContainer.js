@@ -3,14 +3,15 @@ import {Tab, Tabs, TabList, TabPanel} from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import "./TabsContainer.css";
 import {QueryClient, QueryClientProvider} from 'react-query'
-import Recycler from "./Recycler";
+import Recycler from "./recycler/Recycler";
+import CreateAd from "./create/CreateAd";
 
 const queryClient = new QueryClient()
 
 const TabsContainer = () => {
     return (
-        <Tabs className="tabs">
-            <TabList>
+        <Tabs className="tabs" >
+            <TabList style={{display:'flex',alignItems:'center'}}>
                 <Tab className="tab">Доступные поездки</Tab>
                 <Tab className="tab">Чат поездки</Tab>
                 <Tab className="tab">Создать объявление о поездке</Tab>
@@ -27,9 +28,7 @@ const TabsContainer = () => {
                 </p>
             </TabPanel>
             <TabPanel>
-                <p>
-                    И тут пока пусто :(
-                </p>
+                <CreateAd/>
             </TabPanel>
         </Tabs>
     );

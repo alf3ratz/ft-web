@@ -1,10 +1,15 @@
-import { useRef, useCallback } from 'react'
-import Post from '../Post'
-import { useInfiniteQuery } from 'react-query'
-import { getAllTravels } from '../api/axios'
+import {useRef, useCallback, useState} from 'react'
+import Post from '../../Post'
+import {useInfiniteQuery} from 'react-query'
+import {getAllTravels} from '../../api/axios'
 import "./Recycler.css"
+import LoadingSpinner from "./LoadingSpinner";
 
+const REQUEST = 'REQUEST'
+const SUCCESS = 'SUCCESS'
+const FAILURE = 'FAILURE'
 const Recycler = () => {
+    const [isLoading, setIsLoading] = useState(false);
 
     const {
         fetchNextPage, //function
@@ -13,7 +18,7 @@ const Recycler = () => {
         data,
         status,
         error
-    } = useInfiniteQuery('/api/travel/getAllTravels', ({ pageParam = 0 }) => getAllTravels(pageParam), {
+    } = useInfiniteQuery('/api/travel/getAllTravels', ({pageParam = 0}) => getAllTravels(pageParam), {
         getNextPageParam: (lastPage, allPages) => {
             return lastPage.length ? allPages.length + 1 : undefined
         }
@@ -26,32 +31,46 @@ const Recycler = () => {
         if (intObserver.current) intObserver.current.disconnect()
 
         intObserver.current = new IntersectionObserver(posts => {
+            setIsLoading(true);
             if (posts[0].isIntersecting && hasNextPage) {
                 console.log('We are near the last post!')
-                fetchNextPage()
+                fetchNextPage().then(() =>
+                    setIsLoading(false)
+                ).catch(() => {
+                    setIsLoading(false)
+                })
             }
+            //setIsLoading(false)
         })
 
         if (post) intObserver.current.observe(post)
     }, [isFetchingNextPage, fetchNextPage, hasNextPage])
-
     if (status === 'error') return <p className='center'>Error: {error.message}</p>
 
     const content = data?.pages.map(pg => {
         return pg.map((post, i) => {
             if (pg.length === i + 1) {
-                return <Post ref={lastPostRef} key={post.id} post={post} />
+                return <Post ref={lastPostRef} key={post.id} post={post}/>
             }
-            return <Post key={post.id} post={post} />
+            return <Post key={post.id} post={post}/>
         })
     })
 
     return (
         <>
-            <h2 id="top">&infin; Infinite Query &amp; Scroll<br />&infin; Ex. 2 - React Query</h2>
-            {content}
-            {isFetchingNextPage && <p className="center">Loading More Posts...</p>}
-            <p className="center"><a href="src/components/Recycler.js">Back to Top</a></p>
+            {/*{isFetchingNextPage*/}
+            {/*    ?*/}
+            {/*    {content}*/}
+            {/*    :*/}
+            {/*    <>*/}
+            {/*        {content}*/}
+            {/*        <p className="center">Обновление...</p>*/}
+            {/*        <p className="center"><a href="src/components/Recycler.js">Вернуться в начало</a></p>*/}
+            {/*    </>*/}
+            {/*}*/}
+            {/*{content}*/}
+            {isFetchingNextPage ? <LoadingSpinner/> : content}
+            <p className="center"><a href="src/components/recycler/Recycler.js">Back to Top</a></p>
         </>
     )
 }

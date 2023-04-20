@@ -12,19 +12,19 @@ html {
 }
 
 body {
-    background-color: #000;
+    background-color: #002f87;
     font-family: 'Nunito', sans-serif;
 }
 
 p {
-    color: whitesmoke;
+    color: #faffff;
     margin: 1em 0 0;
 }
 
 article {
-    margin: 1em;
+    margin: 0.5em;
     padding: 1em;
-    background-color: rebeccapurple;
+    background-color: #64a7ff;
     color: whitesmoke;
     border-radius: 15px;
 }
