@@ -1,5 +1,5 @@
 import {useRef, useCallback, useState} from 'react'
-import Post from '../../Post'
+import Post from './Post'
 import {useInfiniteQuery} from 'react-query'
 import {getAllTravels} from '../../api/axios'
 import "./Recycler.css"

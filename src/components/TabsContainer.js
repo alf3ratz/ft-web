@@ -5,6 +5,7 @@ import "./TabsContainer.css";
 import {QueryClient, QueryClientProvider} from 'react-query'
 import Recycler from "./recycler/Recycler";
 import CreateAd from "./create/CreateAd";
+import LeaveAd from "./create/LeaveAd";
 
 const queryClient = new QueryClient()
 
@@ -15,6 +16,7 @@ const TabsContainer = () => {
                 <Tab className="tab">Доступные поездки</Tab>
                 <Tab className="tab">Чат поездки</Tab>
                 <Tab className="tab">Создать объявление о поездке</Tab>
+                <Tab className="tab">Мои поездки</Tab>
             </TabList>
 
             <TabPanel>
@@ -29,6 +31,9 @@ const TabsContainer = () => {
             </TabPanel>
             <TabPanel>
                 <CreateAd/>
+            </TabPanel>
+            <TabPanel>
+                <LeaveAd/>
             </TabPanel>
         </Tabs>
     );

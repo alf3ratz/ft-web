@@ -18,6 +18,9 @@ class AdItem extends Component {
                 <p>{this.props.item.placeFrom}</p>
                 <h1>{this.props.item.placeTo}</h1>
                 <h1>{this.props.item.countOfParticipants}</h1>
+                <button  style={{backgroundColor: "#fa7514"}}>
+                    Присоединиться
+                </button>
             </div>
             // <div>
             //     <h1>{count}</h1>

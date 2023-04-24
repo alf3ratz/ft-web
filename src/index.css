@@ -257,6 +257,7 @@ ul {
     padding: 20px;
     border: 1px solid #999;
     overflow: auto;
+    color: #000;
 }
 
 .close-icon {
@@ -272,6 +273,7 @@ ul {
     line-height: 20px;
     text-align: center;
     border: 1px solid #999;
+    color: #000;
     font-size: 20px;
 }
 
