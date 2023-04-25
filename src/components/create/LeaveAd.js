@@ -2,7 +2,7 @@ import DatePicker from "react-datetime";
 import ErrorPopup from "./ErrorPopup";
 import ValidationPopup from "./ValidationPopup";
 import React, {useState} from "react";
-import {currentTravelId, getTravelByEmail, leaveFromTravel, userEmail} from "../../api/axios";
+import {currentChatId, currentTravelId, getTravelByEmail, leaveFromTravel, userEmail} from "../../api/axios";
 
 
 const LeaveAd = () => {
@@ -42,6 +42,7 @@ const LeaveAd = () => {
                     toggleSuccessPopup()
                     setTravelData({...travelData, response})
                     currentTravelId = 0
+                    currentChatId = 0;
                 })
                 .catch(function (error) {
                     if (error.response) {

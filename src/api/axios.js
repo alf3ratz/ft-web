@@ -8,6 +8,7 @@ export const api = axios.create({
 })
 export const userEmail = "aapetropavlovskiy@edu.hse.ru"
 export var currentTravelId = 0
+export var currentChatId = 0;
 
 export const getAllTravels = async (pageParam = 0, options = {}) => {
     const response = await api.get(`/api/travel/getAllTravels?offset=${pageParam}&limit=10`, options)
@@ -65,6 +66,26 @@ export const leaveFromTravel = async (authorEmail = "",
     return response
 }
 export const getTravelByEmail = async (authorEmail = "") => {
-    const response =  api.get(`/api/travel/getTravelByUserEmail?userEmail=${authorEmail}`)
+    const response = api.get(`/api/travel/getTravelByUserEmail?userEmail=${authorEmail}`)
+    return response
+}
+export const sendMessageToChat = async (chatId = 0,
+                                        sender = "",
+                                        message = "") => {
+    const data = JSON.stringify(
+        {
+            chatId: chatId,
+            sender: sender,
+            message: message
+        }
+    );
+    const options = {
+        headers: {"content-type": "application/json"}
+    }
+    const response = await api.post(`/api/chat/sendMessage`, data)
+    return response
+}
+export const getMessagesByChat = async (chatId = 0) => {
+    const response = api.get(`/api/chat/getMessagesByChat?chatId=${chatId}`)
     return response
 }
