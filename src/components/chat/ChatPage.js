@@ -1,7 +1,7 @@
 import React, {Component, useEffect, useState} from 'react';
 
 import {Input, PageHeader, List, Layout, Menu, Button} from 'antd';
-import {UserOutlined, MenuUnfoldOutlined, MenuFoldOutlined} from '@ant-design/icons';
+// import {UserOutlined, MenuUnfoldOutlined, MenuFoldOutlined} from '@ant-design/icons';
 import {getMessagesByChat, getTravelByEmail, sendMessageToChat, userEmail} from "../../api/axios";
 import ErrorPopup from "../create/ErrorPopup";
 // import './chat-page.styles.scss';
