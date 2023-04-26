@@ -1,10 +1,10 @@
 import React, {Component, useEffect, useState} from 'react';
 
 import {Input, PageHeader, List, Layout, Menu, Button} from 'antd';
-// import {UserOutlined, MenuUnfoldOutlined, MenuFoldOutlined} from '@ant-design/icons';
+import {UserOutlined, MenuUnfoldOutlined, MenuFoldOutlined} from '@ant-design/icons';
 import {getMessagesByChat, getTravelByEmail, sendMessageToChat, userEmail} from "../../api/axios";
 import ErrorPopup from "../create/ErrorPopup";
-// import './chat-page.styles.scss';
+// import './chat-page.styles.css';
 
 const {Search} = Input;
 const {Header, Sider, Content} = Layout;
@@ -12,9 +12,9 @@ const {Header, Sider, Content} = Layout;
 const ChatPage = () => {
     const [isChatReceived, setChatReceived] = useState(false)
     const [chatId, setChatId] = useState(0);
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState("")
     const [isInputDisabled, setInputDisabled] = useState(false);
-    const [messagesData, setMessagesData] = useState([]);
+    const [messagesData, setMessagesData] = useState([{}]);
     const [errorData, setErrorData] = useState({
         error: "",
         error_description: "",
@@ -46,6 +46,10 @@ const ChatPage = () => {
                     setInputDisabled(true)
                 }
             }).finally(() => {
+                if (chatId !== 0) {
+                    console.log(chatId)
+                    getAllMessages(chatId);
+                }
                 setChatReceived(true);
             });
         }
@@ -66,66 +70,29 @@ const ChatPage = () => {
 
     const sendMessage = () => {
         sendMessageToChat(chatId, userEmail, message).then((response) => {
-
             }
         ).finally(() => {
             getAllMessages()
         })
     }
     const getAllMessages = () => {
+        let result
         getMessagesByChat(chatId).then((response) => {
-                setMessagesData(response.data)
+                result = response.data
+                console.log(response.data)
             }
         ).finally(() => {
-
+            setMessagesData(result)
         })
     }
 
-
-    // return(
-    //     const {currentMessage, messages, users} = this.state;
-    //     const {history, currentUser} = this.props;
-    //
-    //     const data = messages;
 
     return (
         <div>
 
             <div className='chat-page'>
                 <Layout className='messages-layout'>
-                    {/*<Sider trigger={null} collapsible collapsed={this.state.collapsed}>*/}
-                    {/*    <div className='logo'/>*/}
-                    {/*    <Menu theme='dark' mode='inline' className='users-list' defaultSelectedKeys={null}>*/}
-                    {/*        {users.map((user, i) =>*/}
-                    {/*            user.id !== currentUser.user.id ? (*/}
-                    {/*                <Menu.Item*/}
-                    {/*                    key={i}*/}
-                    {/*                    onClick={() => {*/}
-                    {/*                        this.handleChatSwitch(user.id);*/}
-                    {/*                    }}*/}
-                    {/*                    icon={<UserOutlined/>}*/}
-                    {/*                >*/}
-                    {/*                    {user.name}*/}
-                    {/*                </Menu.Item>*/}
-                    {/*            ) : null*/}
-                    {/*        )}*/}
-                    {/*    </Menu>*/}
-                    {/*</Sider>*/}
                     <Layout className='site-layout'>
-                        {/*<Header className='site-layout-background' style={{padding: 0}}>*/}
-                        {/*    {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {*/}
-                        {/*        className: 'trigger',*/}
-                        {/*        onClick: this.toggle,*/}
-                        {/*    })}*/}
-                        {/*</Header>*/}
-                        {/*<Content*/}
-                        {/*    className='site-layout-background'*/}
-                        {/*    style={{*/}
-                        {/*        margin: '24px 16px',*/}
-                        {/*        padding: 24,*/}
-                        {/*        minHeight: 280,*/}
-                        {/*    }}*/}
-                        {/*>*/}
                         <List
                             className='messages-div'
                             itemLayout='horizontal'
@@ -135,7 +102,17 @@ const ChatPage = () => {
                                     className={
                                         item.sender === userEmail ? 'message-ours' : 'message-other'
                                     }
+                                    background={item.sender === userEmail ? '#fff' : '#64a7ff'}
                                 >
+                                    <List.Item.Meta
+                                        title={
+                                            <>
+                                                {' '}
+                                                {item.sender} <UserOutlined/>{' '}
+                                            </>
+                                        }
+                                        description={item.message}
+                                    />
                                 </List.Item>
                             )}
                         />

@@ -65,7 +65,7 @@ export const leaveFromTravel = async (authorEmail = "",
     const response = await api.post(`/api/travel/reduceTravaller`, data, options)
     return response
 }
-export const getTravelByEmail = async (authorEmail = "") => {
+export const getTravelByEmail = (authorEmail = "") => {
     const response = api.get(`/api/travel/getTravelByUserEmail?userEmail=${authorEmail}`)
     return response
 }
@@ -82,10 +82,11 @@ export const sendMessageToChat = async (chatId = 0,
     const options = {
         headers: {"content-type": "application/json"}
     }
-    const response = await api.post(`/api/chat/sendMessage`, data)
+    const response = await api.post(`/api/chat/sendMessage`, data, options)
     return response
 }
-export const getMessagesByChat = async (chatId = 0) => {
+
+export const getMessagesByChat = (chatId = 0) => {
     const response = api.get(`/api/chat/getMessagesByChat?chatId=${chatId}`)
     return response
 }

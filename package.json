@@ -1,4 +1,8 @@
 {
+  "engines": {
+    "node": "18.7.0",
+    "npm": "9.6.5"
+  },
   "name": "ft-web",
   "version": "0.1.0",
   "private": true,
