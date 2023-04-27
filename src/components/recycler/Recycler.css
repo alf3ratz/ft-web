@@ -27,6 +27,8 @@ article {
     background-color: #64a7ff;
     color: whitesmoke;
     border-radius: 15px;
+    position: relative;
+    height: 400px;
 }
 
 h1 {

@@ -7,6 +7,7 @@ import Recycler from "./recycler/Recycler";
 import CreateAd from "./create/CreateAd";
 import LeaveAd from "./create/LeaveAd";
 import ChatPage from "./chat/ChatPage";
+import LeaveAd2 from "./create/LeaveAd2";
 
 const queryClient = new QueryClient()
 
@@ -32,7 +33,7 @@ const TabsContainer = () => {
                 <CreateAd/>
             </TabPanel>
             <TabPanel>
-                <LeaveAd/>
+                <LeaveAd2/>
             </TabPanel>
         </Tabs>
     );

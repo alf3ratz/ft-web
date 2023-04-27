@@ -49,7 +49,7 @@ const Post = React.forwardRef(({post}, ref) => {
                 }
             })
             .finally(()=>{
-                console.log(travelData.id)
+                console.log(travelData.comment)
                 }
             );
     }

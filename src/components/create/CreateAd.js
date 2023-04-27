@@ -1,20 +1,29 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import {createTravel} from "../../api/axios";
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 import ErrorPopup from "./ErrorPopup";
 import ValidationPopup from "./ValidationPopup";
+import "./CreateAd.css"
 
 const CreateAd = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isNotValidated, setIsNotValidated] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [errorData, setErrorData] = useState({
+        error: "",
+        error_description: "",
+    });
 
     const togglePopup = () => {
         setIsOpen(!isOpen);
     }
-    const toggleValidationPopup = ()=>{
+    const toggleValidationPopup = () => {
         setIsNotValidated(!isNotValidated)
+    }
+    const toggleSuccessPopup = () => {
+        setIsSuccess(!isSuccess)
     }
     const [dt, setDt] = useState(moment());
     const [errorMessage, setErrorMessage] = useState("");
@@ -41,35 +50,39 @@ const CreateAd = () => {
     }
     const handleParticipants = (event) => {
         const {value} = event.target;
-        setTravelData({...travelData, "countOfParticipants": value});
+        setTravelData({...travelData, "countOfParticipants": Number(value)});
     }
     const handleComment = (event) => {
         const {value} = event.target;
         setTravelData({...travelData, "comment": value});
     }
-    const validateValues = ()=>{
-        if (!isNaN(travelData.countOfParticipants) || travelData.countOfParticipants>=5 || travelData.countOfParticipants <=0) {
-            toggleValidationPopup()
-        }
+    const validateValues = () => {
+        return isNaN(travelData.countOfParticipants) || travelData.countOfParticipants >= 5 || travelData.countOfParticipants <= 0
     }
     const createAd = () => {
-        validateValues()
-        setTravelData({...travelData, "startTime": dt.toISOString().replace("Z", "")});
-        console.log(travelData.startTime)
-        createTravel(travelData.authorEmail,
-            travelData.placeFrom,
-            travelData.placeTo,
-            travelData.startTime,
-            travelData.countOfParticipants,
-            travelData.comment).then((response) => response.json())
-            .then((response) => {
-                //setUsers(respose.data)
+        if (validateValues()) {
+            toggleValidationPopup()
+        } else {
+            setTravelData({...travelData, "startTime": dt.toISOString().replace("Z", "")});
+            console.log(travelData.startTime)
+            createTravel(travelData.authorEmail,
+                travelData.placeFrom,
+                travelData.placeTo,
+                travelData.startTime,
+                travelData.countOfParticipants,
+                travelData.comment).then((response) => response.json())
+                .then((response) => {
+                    //setUsers(respose.data)
+                    toggleSuccessPopup()
+                }).catch(function (error) {
+                if (error.response) {
+                    let jsonString = JSON.stringify(error.response.data)
+                    let errorObj = JSON.parse(jsonString)
+                    setErrorData({...errorData, ...errorObj})
+                    togglePopup()
+                }
             })
-            .catch(() => {
-                // setErrorMessage("Не удалось создать объявление");
-                // return <div className="error">{errorMessage}</div>
-                togglePopup()
-            });
+        }
     }
     return (
         <div className="creation">
@@ -113,6 +126,7 @@ const CreateAd = () => {
                     />
                 </div>
                 <textarea
+                    className="comment-textarea"
                     id="comment"
                     placeholder="Дополнительный комментарий"
                     name="comment"
@@ -120,19 +134,18 @@ const CreateAd = () => {
                     onChange={handleComment}
                     margin="normal"
                     rows="5"
-
                 />
-                <div className="button-create-ad">
-                    <button type="button" style={{backgroundColor: "#c41519"}}>
+                <div className="create-ad-background-container">
+                    <button type="button-create" style={{backgroundColor: "#c41519"}}>
                         Отмена
                     </button>
-                    <button type="button" onClick={createAd}>
+                    <button type="button-create" onClick={createAd}>
                         Создать объявление
                     </button>
                 </div>
                 {isOpen && <ErrorPopup
                     content={<>
-                        <b>Произошла ошибка</b>
+                        <b>{errorData.error_description}</b>
                     </>}
                     handleClose={togglePopup}
                 />}
@@ -141,6 +154,12 @@ const CreateAd = () => {
                         <b>Неправильно введено значение</b>
                     </>}
                     handleClose={toggleValidationPopup}
+                />}
+                {isSuccess && <ValidationPopup
+                    content={<>
+                        <b>Вы вышли из поездки</b>
+                    </>}
+                    handleClose={toggleSuccessPopup}
                 />}
             </div>
         </div>

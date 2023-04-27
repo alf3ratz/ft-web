@@ -1,7 +1,7 @@
 import DatePicker from "react-datetime";
 import ErrorPopup from "./ErrorPopup";
 import ValidationPopup from "./ValidationPopup";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {currentChatId, currentTravelId, getTravelByEmail, leaveFromTravel, userEmail} from "../../api/axios";
 
 
@@ -22,6 +22,19 @@ const LeaveAd = () => {
         comment: ""
     });
 
+    useEffect(() => {
+        getTravelByEmail(userEmail).then((response) => {
+            let data = response.data
+            setTravelData({...travelData, data})
+        }).catch(function (error) {
+            if (error.response) {
+                let jsonString = JSON.stringify(error.response.data)
+                let errorObj = JSON.parse(jsonString)
+                setErrorData({...errorData, ...errorObj})
+                toggleErrorPopup()
+            }
+        })
+    })
     const toggleErrorPopup = () => {
         setIsError(!isError);
     }
@@ -29,53 +42,50 @@ const LeaveAd = () => {
         setIsSuccess(!isSuccess)
     }
     const leaveTravel = () => {
-        let travelId = 0
-        getTravelByEmail(userEmail).then((response) => {
-            travelId = response.data.id
-        }).finally(() => {
-            console.log(travelId)
-            leaveFromTravel(userEmail,
-                travelId)
-                .then((response) => {
-                    //setUsers(respose.data)
-                    // setErrorMessage(response.data.);
-                    toggleSuccessPopup()
-                    setTravelData({...travelData, response})
-                    currentTravelId = 0
-                    currentChatId = 0;
-                })
-                .catch(function (error) {
-                    if (error.response) {
-                        let jsonString = JSON.stringify(error.response.data)
-                        let errorObj = JSON.parse(jsonString)
-                        setErrorData({...errorData, ...errorObj})
-                        toggleErrorPopup()
-                        // console.log(errorData.error_description);
-                        // console.log(error.response.data);
-                        // console.log(error.response.status);
-                        // console.log(error.response.headers);
-                    }
-                });
-        });
-
+        leaveFromTravel(userEmail,
+            travelData.id)
+            .then((response) => {
+                //setUsers(respose.data)
+                // setErrorMessage(response.data.);
+                toggleSuccessPopup()
+                setTravelData({...travelData, response})
+                currentTravelId = 0
+                currentChatId = 0;
+            })
+            .catch(function (error) {
+                if (error.response) {
+                    let jsonString = JSON.stringify(error.response.data)
+                    let errorObj = JSON.parse(jsonString)
+                    setErrorData({...errorData, ...errorObj})
+                    toggleErrorPopup()
+                }
+            });
     }
     return (
-        <div className="leave">
-            <button type="button" className="button-join" onClick={leaveTravel}>
-                Выйти из поездки
-            </button>
-            {isError && <ErrorPopup
-                content={<>
-                    <b>{errorData.error_description}</b>
-                </>}
-                handleClose={toggleErrorPopup}
-            />}
-            {isSuccess && <ValidationPopup
-                content={<>
-                    <b>Вы вышли из поездки</b>
-                </>}
-                handleClose={toggleSuccessPopup}
-            />}
+        <div>
+            {travelData.id !== 0 ?
+                <div className="input-container">
+                    <button type="button" className="button-join" onClick={leaveTravel}>
+                        Выйти из поездки
+                    </button>
+                    {isError && <ErrorPopup
+                        content={<>
+                            <b>{errorData.error_description}</b>
+                        </>}
+                        handleClose={toggleErrorPopup}
+                    />}
+                    {isSuccess && <ValidationPopup
+                        content={<>
+                            <b>Вы вышли из поездки</b>
+                        </>}
+                        handleClose={toggleSuccessPopup}
+                    />}
+                </div>
+                :
+                <div>
+                    <p>Вы не участвуйте ни в одной поездке</p>
+                </div>
+            }
         </div>
     );
 }

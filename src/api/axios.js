@@ -65,6 +65,10 @@ export const leaveFromTravel = async (authorEmail = "",
     const response = await api.post(`/api/travel/reduceTravaller`, data, options)
     return response
 }
+export const deleteTravel = async (travelId = 0) => {
+    const response = await api.post(`/api/travel/deleteTravel?travelId=${travelId}`)
+    return response
+}
 export const getTravelByEmail = (authorEmail = "") => {
     const response = api.get(`/api/travel/getTravelByUserEmail?userEmail=${authorEmail}`)
     return response
