@@ -62,9 +62,10 @@ class LeaveAd2 extends Component {
 
     leaveTravel = () => {
         console.log("leaved")
-        leaveFromTravel(this.state.travelData.id)
+        leaveFromTravel(this.state.userEmail,
+            this.state.travelData.id)
             .then((response) => {
-                this.state.toggleSuccessPopup()
+                this.toggleSuccessPopup()
                 //setTravelData({...travelData, response})
                 currentTravelId = 0
                 currentChatId = 0;
@@ -74,7 +75,7 @@ class LeaveAd2 extends Component {
                     let jsonString = JSON.stringify(error.response.data)
                     let errorObj = JSON.parse(jsonString)
                     this.setState({errorData: errorObj})
-                    this.state.toggleErrorPopup()
+                    this.toggleErrorPopup()
                 }
             }.bind(this));
     }
@@ -82,7 +83,7 @@ class LeaveAd2 extends Component {
         console.log("deleted")
         deleteTravel(this.state.travelData.id)
             .then((response) => {
-                this.state.toggleSuccessPopup()
+                this.toggleSuccessPopup()
                 //setTravelData({...travelData, response})
             })
             .catch(function (error) {
@@ -90,7 +91,7 @@ class LeaveAd2 extends Component {
                     let jsonString = JSON.stringify(error.response.data)
                     let errorObj = JSON.parse(jsonString)
                     this.setState({errorData: errorObj})
-                    this.state.toggleErrorPopup()
+                    this.toggleErrorPopup()
                 }
             }.bind(this));
     }
@@ -116,7 +117,7 @@ class LeaveAd2 extends Component {
                         {/*        </button>*/}
                         {/*    }*/}
                         {/*</div>*/}
-                        {this.state.travelData.authorEmail === userEmail ?
+                        {this.state.travelData.authorEmail === this.state.userEmail ?
                             <button type="button" className="button-leave" onClick={this.deleteTravel}>
                                 Удалить поездку
                             </button>

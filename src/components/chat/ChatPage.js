@@ -33,6 +33,9 @@ const ChatPage = () => {
     const toggleErrorPopup = () => {
         setIsError(!isError);
     }
+    // useEffect(() => {
+    //     setInterval(yourFunction, 300000); // The function will be called
+    // },[]);
     useEffect(() => {
         if (!isChatReceived) {
             getTravelByEmail(userEmail).then((response) => {

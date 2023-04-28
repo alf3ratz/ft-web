@@ -46,7 +46,9 @@ const CreateAd = () => {
     const handleStartTime = (event) => {
         const {value} = event.target;
         setDt(value)
-        setTravelData({...travelData, "startTime": value.toString()});
+        let data = value.toISOString().replace("Z", "")
+        setTravelData({...travelData, "startTime": data});
+        console.log(travelData.startTime)
     }
     const handleParticipants = (event) => {
         const {value} = event.target;
@@ -63,14 +65,14 @@ const CreateAd = () => {
         if (validateValues()) {
             toggleValidationPopup()
         } else {
-            setTravelData({...travelData, "startTime": dt.toISOString().replace("Z", "")});
+            //setTravelData({...travelData, "startTime": dt.toISOString().replace("Z", "")});
             console.log(travelData.startTime)
             createTravel(travelData.authorEmail,
                 travelData.placeFrom,
                 travelData.placeTo,
                 travelData.startTime,
                 travelData.countOfParticipants,
-                travelData.comment).then((response) => response.json())
+                travelData.comment)
                 .then((response) => {
                     //setUsers(respose.data)
                     toggleSuccessPopup()
@@ -122,7 +124,12 @@ const CreateAd = () => {
                     <p>Дата и время:</p>
                     <DatePicker
                         value={dt}
-                        onChange={val => setDt(val)}
+                        onChange={val => {
+                            setDt(val)
+                            let data = val.toISOString().replace("Z", "")
+                            setTravelData({...travelData, "startTime": data});
+                            console.log(travelData.startTime)
+                        }}
                     />
                 </div>
                 <textarea
@@ -157,7 +164,7 @@ const CreateAd = () => {
                 />}
                 {isSuccess && <ValidationPopup
                     content={<>
-                        <b>Вы вышли из поездки</b>
+                        <b>Вы создали поездку</b>
                     </>}
                     handleClose={toggleSuccessPopup}
                 />}
