@@ -4,7 +4,7 @@ import {useState} from "react";
 const localUrl = 'http://localhost:8080'
 const prodUrl = 'https://ftapp.herokuapp.com'
 export const api = axios.create({
-    baseURL: prodUrl
+    baseURL: localUrl
 })
 export const userEmail = "aapetropavlovskiy@edu.hse.ru"
 export var currentTravelId = 0
@@ -12,6 +12,10 @@ export var currentChatId = 0;
 
 export const getAllTravels = async (pageParam = 0, options = {}) => {
     const response = await api.get(`/api/travel/getAllTravels?offset=${pageParam}&limit=10`, options)
+    return response.data.content
+}
+export const getTravelHistory = async (pageParam = 0, authorEmail = "", options = {}) => {
+    const response = await api.get(`/api/travel/getTravelHistoryByAuthor?offset=${pageParam}&limit=10&authorEmail=${authorEmail}`, options)
     return response.data.content
 }
 export const createTravel = async (authorEmail = "",

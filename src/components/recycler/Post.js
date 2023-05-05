@@ -48,8 +48,8 @@ const Post = React.forwardRef(({post}, ref) => {
                     // console.log(error.response.headers);
                 }
             })
-            .finally(()=>{
-                console.log(travelData.comment)
+            .finally(() => {
+                    console.log(travelData.comment)
                 }
             );
     }
