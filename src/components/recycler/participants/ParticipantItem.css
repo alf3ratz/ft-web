@@ -1,0 +1,17 @@
+.participant-item {
+    margin: 0.5em;
+    padding: 20px;
+    background-color: #64a7ff;
+    color: whitesmoke;
+    border-radius: 15px;
+    display: table;
+    height: 50px;
+}
+p {
+    color: #faffff;
+    margin: 0 0 0;
+    text-transform: lowercase;
+}
+p > span:first-letter {
+    text-transform: lowercase;        /* Make the first letters uppercase      */
+}

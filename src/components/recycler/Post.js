@@ -3,10 +3,12 @@ import './Post.css'
 import {currentTravelId, joinToTravel, userEmail} from "../../api/axios";
 import ErrorPopup from "../create/ErrorPopup";
 import ValidationPopup from "../create/ValidationPopup";
+import ParticipantsPopup from "./history/ParticipantsPopup";
 
 const Post = React.forwardRef(({post}, ref) => {
     const [isError, setIsError] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [isParticipantsClicked, setIsParticipantsClicked] = useState(false)
     const [errorData, setErrorData] = useState({
         error: "",
         error_description: "",
@@ -18,6 +20,7 @@ const Post = React.forwardRef(({post}, ref) => {
         placeFrom: "",
         placeTo: "",
         countOfParticipants: 0,
+        participants: [{}],
         comment: ""
     });
 
@@ -26,6 +29,9 @@ const Post = React.forwardRef(({post}, ref) => {
     }
     const toggleSuccessPopup = () => {
         setIsSuccess(!isSuccess)
+    }
+    const showParticipantsPopup = () => {
+        setIsParticipantsClicked(!isParticipantsClicked)
     }
     const joinTravel = () => {
         joinToTravel(userEmail,
@@ -60,9 +66,20 @@ const Post = React.forwardRef(({post}, ref) => {
             <p>Адрес назначения: {post.placeTo}</p>
             <p>Количество попутчиков: {post.countOfParticipants}</p>
             <p>Дополнительная информация: {post.comment}</p>
-            <button type="button" className="button-join" onClick={joinTravel}>
-                Присоединиться
+            {post.authorEmail === userEmail ?
+                <div></div>
+                :
+                <button type="button" className="button-join" onClick={joinTravel}>
+                    Присоединиться
+                </button>
+            }
+            <button type="button" className="button-participants-post" onClick={showParticipantsPopup}>
+                Попутчики
             </button>
+            {isParticipantsClicked && <ParticipantsPopup
+                participants={travelData.participants}
+                handleClose={showParticipantsPopup}
+            />}
             {isError && <ErrorPopup
                 content={<>
                     <b>{errorData.error_description}</b>

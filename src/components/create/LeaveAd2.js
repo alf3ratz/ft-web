@@ -10,6 +10,9 @@ import {
 import ErrorPopup from "./ErrorPopup";
 import ValidationPopup from "./ValidationPopup";
 import "./LeaveAd.css"
+import ParticipantsPopup from "../recycler/history/ParticipantsPopup";
+import ParticipantList from "../recycler/participants/ParticipantList";
+import LeadershipPopup from "../recycler/leadership/LeadershipPopup";
 
 class LeaveAd2 extends Component {
     constructor(props) {
@@ -17,6 +20,8 @@ class LeaveAd2 extends Component {
         this.state = {
             isError: false,
             isSuccess: false,
+            isParticipantsClicked: false,
+            isDeletePopupClicked: false,
             userEmail: userEmail,
             errorData: {
                 error: "",
@@ -28,12 +33,14 @@ class LeaveAd2 extends Component {
                 startTime: "",
                 placeFrom: "",
                 placeTo: "",
+                participants:[{}],
                 countOfParticipants: 0,
                 comment: ""
             },
         }
         this.toggleErrorPopup = this.toggleErrorPopup.bind(this);
         this.toggleSuccessPopup = this.toggleSuccessPopup.bind(this);
+        this.showParticipantsPopup = this.showParticipantsPopup.bind(this);
     }
 
     componentDidMount() {
@@ -59,7 +66,12 @@ class LeaveAd2 extends Component {
     toggleSuccessPopup = () => {
         this.setState({isSuccess: !this.state.isSuccess})
     }
-
+    showParticipantsPopup = () => {
+        this.setState({isParticipantsClicked: !this.state.isParticipantsClicked})
+    }
+    toggleDeletePopup = () =>{
+        this.setState({isDeletePopupClicked: !this.state.isDeletePopupClicked})
+    }
     leaveTravel = () => {
         console.log("leaved")
         leaveFromTravel(this.state.userEmail,
@@ -106,6 +118,34 @@ class LeaveAd2 extends Component {
                         <p>Адрес назначения: {this.state.travelData.placeTo}</p>
                         <p>Количество попутчиков: {this.state.travelData.countOfParticipants}</p>
                         <p>Дополнительная информация: {this.state.travelData.comment}</p>
+                        <button type="button" className="button-participants-leavead"
+                                onClick={this.showParticipantsPopup}>
+                            Попутчики
+                        </button>
+                        {/*<ParticipantList participants={this.state.travelData.participants}/>*/}
+                        {/*{*/}
+                        {/*    this.state.travelData.participants === undefined ?*/}
+                        {/*        <p>Попутчики отсутствуют</p>*/}
+                        {/*        :*/}
+                        {/*        <div><ParticipantList participants={this.state.travelData.participants}/></div>*/}
+                        {/*}*/}
+                        {this.state.travelData.authorEmail === this.state.userEmail ?
+                            <button type="button" className="button-leave" onClick={this.toggleDeletePopup}>
+                                Удалить поездку
+                            </button>
+                            :
+                            <button type="button" className="button-leave" onClick={this.leaveTravel}>
+                                Выйти из поездки
+                            </button>
+                        }
+                        {this.state.isParticipantsClicked && <ParticipantsPopup
+                            participants={this.state.travelData.participants}
+                            handleClose={this.showParticipantsPopup}
+                        />}
+                        {this.state.isDeletePopupClicked && <LeadershipPopup
+                            travelData={this.state.travelData}
+                            handleClose={this.toggleDeletePopup}
+                        />}
                         {/*<div className="leave-ad-background-container">*/}
                         {/*    {this.state.travelData.authorEmail === userEmail ?*/}
                         {/*        <button type="button" className="button-leave" onClick={this.state.deleteTravel}>*/}
@@ -117,15 +157,7 @@ class LeaveAd2 extends Component {
                         {/*        </button>*/}
                         {/*    }*/}
                         {/*</div>*/}
-                        {this.state.travelData.authorEmail === this.state.userEmail ?
-                            <button type="button" className="button-leave" onClick={this.deleteTravel}>
-                                Удалить поездку
-                            </button>
-                            :
-                            <button type="button" className="button-leave" onClick={this.leaveTravel}>
-                                Выйти из поездки
-                            </button>
-                        }
+
                         {this.state.isError && <ErrorPopup
                             content={<>
                                 <b>{this.state.errorData.error_description}</b>

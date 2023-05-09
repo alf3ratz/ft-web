@@ -98,3 +98,17 @@ export const getMessagesByChat = (chatId = 0) => {
     const response = api.get(`/api/chat/getMessagesByChat?chatId=${chatId}`)
     return response
 }
+
+export const setLeadershipToParticipant = async (travelId = 0, participantEmail = "") => {
+    const data = JSON.stringify(
+        {
+            travelId: travelId,
+            participantEmail: participantEmail
+        }
+    );
+    const options = {
+        headers: {"content-type": "application/json"}
+    }
+    const response = await api.post(`/api/travel/setLeadershipToParticipant`, data, options)
+    return response;
+}

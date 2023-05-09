@@ -20,6 +20,8 @@ const Recycler = () => {
         error
     } = useInfiniteQuery('/api/travel/getAllTravels', ({pageParam = 0}) => getAllTravels(pageParam), {
         getNextPageParam: (lastPage, allPages) => {
+            // console.log(`lastPage.length = ${lastPage.length}`)
+            // console.log(`allPages.length = ${allPages.length + 1}`)
             return lastPage.length ? allPages.length + 1 : undefined
         }
     })

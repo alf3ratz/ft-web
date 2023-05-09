@@ -3,7 +3,7 @@ import {QueryClient, QueryClientProvider} from 'react-query'
 import ChatRoom from "./components/chat/ChatRoom";
 import Recycler from "./components/recycler/Recycler";
 import "./App.css"
-import TabsContainer from "./components/TabsContainer";
+import TabsContainer from "./components/tabs/TabsContainer";
 
 const queryClient = new QueryClient()
 
