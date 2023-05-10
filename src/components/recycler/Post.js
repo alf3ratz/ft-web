@@ -77,7 +77,7 @@ const Post = React.forwardRef(({post}, ref) => {
                 Попутчики
             </button>
             {isParticipantsClicked && <ParticipantsPopup
-                participants={travelData.participants}
+                participants={post.participants}
                 handleClose={showParticipantsPopup}
             />}
             {isError && <ErrorPopup

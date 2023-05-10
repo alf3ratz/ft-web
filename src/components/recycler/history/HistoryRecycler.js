@@ -17,10 +17,8 @@ const HistoryRecycler = () => {
         data,
         status,
         error
-    } = useInfiniteQuery('/api/travel/getTravelHistoryByAuthor', ({pageParam = 0}) => getTravelHistory(pageParam, userEmail), {
-        getNextPageParam: (lastPage, allPages) => {
-            return lastPage.length ? allPages.length + 1 : undefined
-        }
+    } = useInfiniteQuery('/api/travel/getTravelHistoryByAuthor', ({pageParam = 1}) => getTravelHistory(pageParam, userEmail), {
+        getNextPageParam: (lastPage, allPages) => lastPage.nextCursor,
     })
 
     const intObserver = useRef()

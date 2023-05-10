@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {createTravel} from "../../api/axios";
 import DatePicker from 'react-datetime';
 import moment from 'moment';
@@ -6,8 +6,11 @@ import 'react-datetime/css/react-datetime.css';
 import ErrorPopup from "./ErrorPopup";
 import ValidationPopup from "./ValidationPopup";
 import "./CreateAd.css"
+import {FullscreenControl, GeolocationControl, Map, RouteButton, useYMaps, YMaps} from "@pbe/react-yandex-maps";
 
 const CreateAd = () => {
+    const mapRef = useRef(null);
+    //const ymaps = useYMaps(['Map']);
     const [isOpen, setIsOpen] = useState(false);
     const [isNotValidated, setIsNotValidated] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
@@ -15,6 +18,16 @@ const CreateAd = () => {
         error: "",
         error_description: "",
     });
+    // useEffect(() => {
+    //     if (!ymaps || !mapRef.current) {
+    //         return;
+    //     }
+    //
+    //     new ymaps.Map(mapRef.current, {
+    //         center: [55.76, 37.64],
+    //         zoom: 9,
+    //     });
+    // }, [ymaps]);
 
     const togglePopup = () => {
         setIsOpen(!isOpen);
@@ -26,7 +39,6 @@ const CreateAd = () => {
         setIsSuccess(!isSuccess)
     }
     const [dt, setDt] = useState(moment());
-    const [errorMessage, setErrorMessage] = useState("");
     const [travelData, setTravelData] = useState({
         authorEmail: "aapetropavlovskiy@edu.hse.ru",
         startTime: "",
@@ -85,6 +97,9 @@ const CreateAd = () => {
                 }
             })
         }
+    }
+    const printCallback = () =>{
+        console.log(`sheesh: ${mapRef.current.center}`)
     }
     return (
         <div className="creation">
@@ -168,6 +183,21 @@ const CreateAd = () => {
                     </>}
                     handleClose={toggleSuccessPopup}
                 />}
+            </div>
+            <div className="input-container" onClick={printCallback}>
+                {/*<div ref={mapRef} style={{ width: '320px', height: '240px' }}>*/}
+                {/*    <FullscreenControl />*/}
+                {/*    <GeolocationControl options={{ float: "left" }} />*/}
+                {/*    <RouteButton options={{ float: "left" }} />*/}
+                {/*</div>*/}
+                <YMaps>
+                    <Map defaultState={{ center: [55.75, 37.57], zoom: 9 }} instanceRef={mapRef}>
+                        <FullscreenControl />
+                        <GeolocationControl options={{ float: "left" }} />
+                        <RouteButton options={{ float: "left" }}/>
+                    </Map>
+                </YMaps>
+
             </div>
         </div>
     );

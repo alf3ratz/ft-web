@@ -8,10 +8,13 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
+    "@googlemaps/react-wrapper": "^1.1.35",
+    "@pbe/react-yandex-maps": "^1.2.4",
     "@stomp/stompjs": "^7.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "antd": "^5.4.5",
     "axios": "^1.3.5",
     "moment": "^2.29.4",
     "net": "^1.0.2",
@@ -26,8 +29,7 @@
     "sass": "^1.62.0",
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
-    "web-vitals": "^2.1.4",
-    "antd": "^5.4.5"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "predeploy": "npm run build",

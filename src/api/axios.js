@@ -2,9 +2,9 @@ import axios from 'axios'
 import {useState} from "react";
 
 const localUrl = 'http://localhost:8080'
-const prodUrl = 'https://ftapp.herokuapp.com'
+const prodUrl = 'https://ftapp-aapetropavlovskiy.b4a.run'//'https://ftapp.herokuapp.com'
 export const api = axios.create({
-    baseURL: localUrl
+    baseURL: prodUrl
 })
 export const userEmail = "aapetropavlovskiy@edu.hse.ru"
 export var currentTravelId = 0

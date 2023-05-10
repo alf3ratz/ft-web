@@ -1,8 +1,6 @@
 import React, {useState} from 'react'
 import './HistoryPost.css'
 import ErrorPopup from "../../create/ErrorPopup";
-import ParticipantList from "../participants/ParticipantList";
-import {currentTravelId, joinToTravel, userEmail} from "../../../api/axios";
 import ParticipantsPopup from "./ParticipantsPopup";
 
 
@@ -45,7 +43,7 @@ const HistoryPost = React.forwardRef(({post}, ref) => {
                 Попутчики
             </button>
             {isParticipantsClicked && <ParticipantsPopup
-                participants={travelData.participants}
+                participants={post.participants}
                 handleClose={showParticipantsPopup}
             />}
             {isError && <ErrorPopup
