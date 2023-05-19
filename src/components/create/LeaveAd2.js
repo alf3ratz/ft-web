@@ -76,8 +76,8 @@ class LeaveAd2 extends Component {
             .then((response) => {
                 this.toggleSuccessPopup()
                 //setTravelData({...travelData, response})
-                currentTravelId = 0
-                currentChatId = 0;
+                // currentTravelId = 0
+                // currentChatId = 0;
             })
             .catch(function (error) {
                 if (error.response) {
