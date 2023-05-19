@@ -40,7 +40,7 @@ const Post = React.forwardRef(({post}, ref) => {
                 //setUsers(respose.data)
                 // setErrorMessage(response.data.);
                 toggleSuccessPopup()
-                currentTravelId = response.data.id
+                //currentTravelId = response.data.id
             })
             .catch(function (error) {
                 if (error.response) {
