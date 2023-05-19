@@ -1,5 +1,5 @@
 import "../participants/ParticipantItem.css"
-import {currentTravelId, joinToTravel, setLeadershipToParticipant, userEmail} from "../../../api/axios";
+import {setLeadershipToParticipant} from "../../../api/axios";
 import React, {useState} from "react";
 import ErrorPopup from "../../create/ErrorPopup";
 import ValidationPopup from "../../create/ValidationPopup";

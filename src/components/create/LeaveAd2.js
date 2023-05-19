@@ -11,7 +11,6 @@ import ErrorPopup from "./ErrorPopup";
 import ValidationPopup from "./ValidationPopup";
 import "./LeaveAd.css"
 import ParticipantsPopup from "../recycler/history/ParticipantsPopup";
-import ParticipantList from "../recycler/participants/ParticipantList";
 import LeadershipPopup from "../recycler/leadership/LeadershipPopup";
 
 class LeaveAd2 extends Component {

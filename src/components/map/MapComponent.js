@@ -1,10 +1,8 @@
-import {Component, useEffect, useRef, useState} from "react";
-import ReactDOM from "react-dom";
+import {useEffect, useState} from "react";
 import React from "react";
-import {DirectionsRenderer, DirectionsService, GoogleMap, InfoWindow, LoadScript, Marker} from "@react-google-maps/api";
+import {DirectionsRenderer, GoogleMap, LoadScript, Marker} from "@react-google-maps/api";
 
 const MapComponent = () => {
-    let directionsService;
     const [currentPosition, setCurrentPosition] = useState({});
     const [direction, setDirection] = useState({})
     const [placeFrom, setPlaceFrom] = useState({

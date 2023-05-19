@@ -4,10 +4,6 @@ import {useInfiniteQuery} from 'react-query'
 import {getAllTravels} from '../../api/axios'
 import "./Recycler.css"
 import LoadingSpinner from "./LoadingSpinner";
-
-const REQUEST = 'REQUEST'
-const SUCCESS = 'SUCCESS'
-const FAILURE = 'FAILURE'
 const Recycler = () => {
     const [isLoading, setIsLoading] = useState(false);
 

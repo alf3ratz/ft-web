@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Geocode from "react-geocode";
-import {DirectionsRenderer, GoogleMap, LoadScript, Marker} from "@react-google-maps/api";
+import {GoogleMap, LoadScript, Marker} from "@react-google-maps/api";
 import "./../recycler/history/ParticipantsPopup.css"
 Geocode.setApiKey("AIzaSyAlU7dQOD7g_akB45yegjUIQepuVXmyP2w");
 Geocode.setLanguage("ru");
@@ -9,13 +9,7 @@ Geocode.setLocationType("ROOFTOP");
 const MapPopup = props => {
     const [isError, setIsError] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
-    const [errorData, setErrorData] = useState({
-        error: "",
-        error_description: "",
-    });
     const [currentPosition, setCurrentPosition] = useState({});
-    const [direction, setDirection] = useState({})
-    const [placeFrom, setPlaceFrom] = useState({})
     const [selectedPlace, setSelectedPlace] = useState({})
 
     useEffect(() => {

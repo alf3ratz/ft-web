@@ -1,12 +1,29 @@
 import React from "react";
-import {QueryClient, QueryClientProvider} from 'react-query'
-import ChatRoom from "./components/chat/ChatRoom";
-import Recycler from "./components/recycler/Recycler";
+import {QueryClient} from 'react-query'
 import "./App.css"
 import TabsContainer from "./components/tabs/TabsContainer";
+import {initializeApp} from "firebase/app";
+import {getAnalytics} from "firebase/analytics";
 
-const queryClient = new QueryClient()
+// Import the functions you need from the SDKs you need
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+    apiKey: "AIzaSyBFB0u0xBN24pllH4tW_IVgxEpPja6_YBk",
+    authDomain: "ftapp-386322.firebaseapp.com",
+    projectId: "ftapp-386322",
+    storageBucket: "ftapp-386322.appspot.com",
+    messagingSenderId: "749984903264",
+    appId: "1:749984903264:web:10deba3272b34723b4d305",
+    measurementId: "G-9E588EFNMQ"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 // const App = () => {
 //     const [value, setValue] = React.useState(2);

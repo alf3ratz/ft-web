@@ -6,8 +6,6 @@ import 'react-datetime/css/react-datetime.css';
 import ErrorPopup from "./ErrorPopup";
 import ValidationPopup from "./ValidationPopup";
 import "./CreateAd.css"
-import {FullscreenControl, GeolocationControl, Map, RouteButton, useYMaps, YMaps} from "@pbe/react-yandex-maps";
-import {DirectionsRenderer, GoogleMap, LoadScript, Marker} from "@react-google-maps/api";
 import MapPopup from "../map/MapPopup";
 
 export var globalPlaceFrom = ""

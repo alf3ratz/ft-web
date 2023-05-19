@@ -6,11 +6,8 @@ import {QueryClient, QueryClientProvider} from 'react-query'
 import Recycler from "../recycler/Recycler";
 import HistoryRecycler from "../recycler/history/HistoryRecycler";
 import CreateAd from "../create/CreateAd";
-import LeaveAd from "../create/LeaveAd";
 import ChatPage from "../chat/ChatPage";
 import LeaveAd2 from "../create/LeaveAd2";
-import MapComponent from "../map/MapComponent";
-import {MapContainer} from "../map/MapContainer";
 import TaxiComponent from "../map/TaxiComponent";
 
 const queryClient = new QueryClient()

@@ -1,13 +1,12 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
-import {Input, PageHeader, List, Layout, Menu, Button} from 'antd';
-import {UserOutlined, MenuUnfoldOutlined, MenuFoldOutlined} from '@ant-design/icons';
+import {Input, List, Layout} from 'antd';
+import {UserOutlined} from '@ant-design/icons';
 import {getMessagesByChat, getTravelByEmail, sendMessageToChat, userEmail} from "../../api/axios";
 import ErrorPopup from "../create/ErrorPopup";
 // import './chat-page.styles.css';
 
 const {Search} = Input;
-const {Header, Sider, Content} = Layout;
 
 const ChatPage = () => {
     const [isChatReceived, setChatReceived] = useState(false)
