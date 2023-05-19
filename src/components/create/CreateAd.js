@@ -12,7 +12,7 @@ export var globalPlaceFrom = ""
 export var globalPlaceTo = ""
 
 const CreateAd = () => {
-    const mapRef = useRef(null);
+    // const mapRef = useRef(null);
     const [placeFromBtnClicked, setPlaceFromBtnClicked] = useState(false);
     const [placeToBtnClicked, setPlaceToBtnClicked] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -22,35 +22,35 @@ const CreateAd = () => {
         error: "",
         error_description: "",
     });
-    const [currentPosition, setCurrentPosition] = useState({});
-    const [direction, setDirection] = useState({})
-    const [placeFrom, setPlaceFrom] = useState({})
-    const [placeTo, setPlaceTo] = useState({})
-    const [selectedPlace, setSelectedPlace] = useState({})
+    // const [currentPosition, setCurrentPosition] = useState({});
+    // const [direction, setDirection] = useState({})
+    // const [placeFrom, setPlaceFrom] = useState({})
+    // const [placeTo, setPlaceTo] = useState({})
+    // const [selectedPlace, setSelectedPlace] = useState({})
 
     useEffect(() => {
     });
     const success = position => {
-        const currentPosition = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-        }
-        setCurrentPosition(currentPosition);
+        // const currentPosition = {
+        //     lat: position.coords.latitude,
+        //     lng: position.coords.longitude
+        // }
+        //setCurrentPosition(currentPosition);
     };
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(success);
     })
-    const mapStyles = {
-        height: "100vh",
-        width: "100%"
-    };
-
-    const onMarkerDragEnd = (e) => {
-        // const lat = e.latLng.lat();
-        // const lng = e.latLng.lng();
-        // setCurrentPosition({lat, lng})
-    };
+    // const mapStyles = {
+    //     height: "100vh",
+    //     width: "100%"
+    // };
+    //
+    // const onMarkerDragEnd = (e) => {
+    //     // const lat = e.latLng.lat();
+    //     // const lng = e.latLng.lng();
+    //     // setCurrentPosition({lat, lng})
+    // };
     const togglePopup = () => {
         setIsOpen(!isOpen);
     }
@@ -79,13 +79,13 @@ const CreateAd = () => {
         setTravelData({...travelData, "placeTo": value});
         globalPlaceTo = value
     }
-    const handleStartTime = (event) => {
-        const {value} = event.target;
-        setDt(value)
-        let data = value.toISOString().replace("Z", "")
-        setTravelData({...travelData, "startTime": data});
-        console.log(travelData.startTime)
-    }
+    // const handleStartTime = (event) => {
+    //     const {value} = event.target;
+    //     setDt(value)
+    //     let data = value.toISOString().replace("Z", "")
+    //     setTravelData({...travelData, "startTime": data});
+    //     console.log(travelData.startTime)
+    // }
     const handleParticipants = (event) => {
         const {value} = event.target;
         if(!isNaN(value)){
@@ -123,9 +123,6 @@ const CreateAd = () => {
                 }
             })
         }
-    }
-    const printCallback = () => {
-        console.log(`sheesh: ${mapRef.current.center}`)
     }
     const placeFromBtnClick = () => {
         setPlaceFromBtnClicked(!placeFromBtnClicked)

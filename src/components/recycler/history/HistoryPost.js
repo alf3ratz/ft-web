@@ -8,20 +8,20 @@ const HistoryPost = React.forwardRef(({post}, ref) => {
     const [isError, setIsError] = useState(false);
     const [isParticipantsClicked, setIsParticipantsClicked] = useState(false)
     // const [isSuccess, setIsSuccess] = useState(false);
-    const [errorData, setErrorData] = useState({
-        error: "",
-        error_description: "",
-    });
-    const [travelData, setTravelData] = useState({
-        id: 0,
-        authorEmail: "",
-        startTime: "",
-        placeFrom: "",
-        placeTo: "",
-        countOfParticipants: 0,
-        participants: [{}],
-        comment: ""
-    });
+    // const [errorData, setErrorData] = useState({
+    //     error: "",
+    //     error_description: "",
+    // });
+    // const [travelData, setTravelData] = useState({
+    //     id: 0,
+    //     authorEmail: "",
+    //     startTime: "",
+    //     placeFrom: "",
+    //     placeTo: "",
+    //     countOfParticipants: 0,
+    //     participants: [{}],
+    //     comment: ""
+    // });
 
     const toggleErrorPopup = () => {
         setIsError(!isError);
@@ -48,7 +48,7 @@ const HistoryPost = React.forwardRef(({post}, ref) => {
             />}
             {isError && <ErrorPopup
                 content={<>
-                    <b>{errorData.error_description}</b>
+                    <b>Ошибка</b>
                 </>}
                 handleClose={toggleErrorPopup}
             />}
@@ -61,14 +61,11 @@ const HistoryPost = React.forwardRef(({post}, ref) => {
         </>
     )
 
-    const content = ref
+    return ref
         ?
         <article ref={ref}>{postBody}</article>
         :
         <article>{postBody}</article>
-
-
-    return content
 })
 
 export default HistoryPost

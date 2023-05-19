@@ -8,7 +8,7 @@ import "./../Recycler.css"
 
 
 const HistoryRecycler = () => {
-    const [isLoading, setIsLoading] = useState(false);
+    //const [isLoading, setIsLoading] = useState(false);
 
     const {
         fetchNextPage, //function
@@ -28,13 +28,14 @@ const HistoryRecycler = () => {
         if (intObserver.current) intObserver.current.disconnect()
 
         intObserver.current = new IntersectionObserver(posts => {
-            setIsLoading(true);
+            //setIsLoading(true);
             if (posts[0].isIntersecting && hasNextPage) {
                 console.log('We are near the last post!')
                 fetchNextPage().then(() =>
-                    setIsLoading(false)
+                   // setIsLoading(false)
+                    console.log('1')
                 ).catch(() => {
-                    setIsLoading(false)
+                   // setIsLoading(false)
                 })
             }
             //setIsLoading(false)

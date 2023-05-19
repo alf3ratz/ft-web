@@ -1,7 +1,5 @@
 import React, {Component} from "react";
 import {
-    currentChatId,
-    currentTravelId,
     deleteTravel,
     getTravelByEmail,
     leaveFromTravel,

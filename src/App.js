@@ -1,5 +1,4 @@
 import React from "react";
-import {QueryClient} from 'react-query'
 import "./App.css"
 import TabsContainer from "./components/tabs/TabsContainer";
 import {initializeApp} from "firebase/app";
@@ -23,7 +22,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
 // const App = () => {
 //     const [value, setValue] = React.useState(2);
