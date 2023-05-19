@@ -1,11 +1,11 @@
-import {useRef, useCallback, useState} from 'react'
+import {useRef, useCallback} from 'react'
 import Post from './Post'
 import {useInfiniteQuery} from 'react-query'
 import {getAllTravels} from '../../api/axios'
 import "./Recycler.css"
 import LoadingSpinner from "./LoadingSpinner";
 const Recycler = () => {
-    const [/*isLoading,*/ setIsLoading] = useState(false);
+    //const [/*isLoading,*/ setIsLoading] = useState(false);
 
     const {
         fetchNextPage, //function
