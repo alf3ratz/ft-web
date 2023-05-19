@@ -64,12 +64,12 @@ const MapPopup = props => {
             );
         }
     }
-    const toggleErrorPopup = () => {
-        setIsError(!isError);
-    }
-    const toggleSuccessPopup = () => {
-        setIsSuccess(!isSuccess)
-    }
+    // const toggleErrorPopup = () => {
+    //     setIsError(!isError);
+    // }
+    // const toggleSuccessPopup = () => {
+    //     setIsSuccess(!isSuccess)
+    // }
     return (
         <div className="participants-popup-box">
             <div className="participants-box">

@@ -5,7 +5,7 @@ import {getAllTravels} from '../../api/axios'
 import "./Recycler.css"
 import LoadingSpinner from "./LoadingSpinner";
 const Recycler = () => {
-    const [isLoading, setIsLoading] = useState(false);
+    const [/*isLoading,*/ setIsLoading] = useState(false);
 
     const {
         fetchNextPage, //function

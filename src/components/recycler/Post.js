@@ -13,7 +13,7 @@ const Post = React.forwardRef(({post}, ref) => {
         error: "",
         error_description: "",
     });
-    const [travelData, setTravelData] = useState({
+    const [travelData] = useState({
         id: 0,
         authorEmail: "",
         startTime: "",

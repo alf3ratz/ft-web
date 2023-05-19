@@ -2,7 +2,6 @@ import React from "react";
 import "./App.css"
 import TabsContainer from "./components/tabs/TabsContainer";
 import {initializeApp} from "firebase/app";
-import {getAnalytics} from "firebase/analytics";
 
 // Import the functions you need from the SDKs you need
 // TODO: Add SDKs for Firebase products that you want to use
@@ -21,7 +20,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 // const App = () => {
 //     const [value, setValue] = React.useState(2);

@@ -1,4 +1,4 @@
-import {useCallback, useRef, useState} from "react";
+import {useCallback, useRef} from "react";
 import {useInfiniteQuery} from "react-query";
 import {getTravelHistory, userEmail} from "../../../api/axios";
 import LoadingSpinner from "../LoadingSpinner";
