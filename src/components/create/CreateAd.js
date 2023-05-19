@@ -7,10 +7,16 @@ import ErrorPopup from "./ErrorPopup";
 import ValidationPopup from "./ValidationPopup";
 import "./CreateAd.css"
 import {FullscreenControl, GeolocationControl, Map, RouteButton, useYMaps, YMaps} from "@pbe/react-yandex-maps";
+import {DirectionsRenderer, GoogleMap, LoadScript, Marker} from "@react-google-maps/api";
+import MapPopup from "../map/MapPopup";
+
+export var globalPlaceFrom = ""
+export var globalPlaceTo = ""
 
 const CreateAd = () => {
     const mapRef = useRef(null);
-    //const ymaps = useYMaps(['Map']);
+    const [placeFromBtnClicked, setPlaceFromBtnClicked] = useState(false);
+    const [placeToBtnClicked, setPlaceToBtnClicked] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [isNotValidated, setIsNotValidated] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
@@ -18,17 +24,35 @@ const CreateAd = () => {
         error: "",
         error_description: "",
     });
-    // useEffect(() => {
-    //     if (!ymaps || !mapRef.current) {
-    //         return;
-    //     }
-    //
-    //     new ymaps.Map(mapRef.current, {
-    //         center: [55.76, 37.64],
-    //         zoom: 9,
-    //     });
-    // }, [ymaps]);
+    const [currentPosition, setCurrentPosition] = useState({});
+    const [direction, setDirection] = useState({})
+    const [placeFrom, setPlaceFrom] = useState({})
+    const [placeTo, setPlaceTo] = useState({})
+    const [selectedPlace, setSelectedPlace] = useState({})
 
+    useEffect(() => {
+    });
+    const success = position => {
+        const currentPosition = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        }
+        setCurrentPosition(currentPosition);
+    };
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(success);
+    })
+    const mapStyles = {
+        height: "100vh",
+        width: "100%"
+    };
+
+    const onMarkerDragEnd = (e) => {
+        // const lat = e.latLng.lat();
+        // const lng = e.latLng.lng();
+        // setCurrentPosition({lat, lng})
+    };
     const togglePopup = () => {
         setIsOpen(!isOpen);
     }
@@ -44,16 +68,18 @@ const CreateAd = () => {
         startTime: "",
         placeFrom: "",
         placeTo: "",
-        countOfParticipants: 0,
+        countOfParticipants: "",
         comment: ""
     });
     const handlePlaceFrom = (event) => {
         const {value} = event.target;
         setTravelData({...travelData, "placeFrom": value});
+        globalPlaceFrom = value
     }
     const handlePlaceTo = (event) => {
         const {value} = event.target;
         setTravelData({...travelData, "placeTo": value});
+        globalPlaceTo = value
     }
     const handleStartTime = (event) => {
         const {value} = event.target;
@@ -64,7 +90,9 @@ const CreateAd = () => {
     }
     const handleParticipants = (event) => {
         const {value} = event.target;
-        setTravelData({...travelData, "countOfParticipants": Number(value)});
+        if(!isNaN(value)){
+            setTravelData({...travelData, "countOfParticipants": Number(value)});
+        }
     }
     const handleComment = (event) => {
         const {value} = event.target;
@@ -98,40 +126,57 @@ const CreateAd = () => {
             })
         }
     }
-    const printCallback = () =>{
+    const printCallback = () => {
         console.log(`sheesh: ${mapRef.current.center}`)
     }
+    const placeFromBtnClick = () => {
+        setPlaceFromBtnClicked(!placeFromBtnClicked)
+        console.log(globalPlaceFrom)
+    }
+    const placeToBtnClick = () => {
+        setPlaceToBtnClicked(!placeToBtnClicked)
+    }
+    const clearData = () =>{
+        setTravelData({
+            authorEmail: "aapetropavlovskiy@edu.hse.ru",
+            startTime: "",
+            placeFrom: "",
+            placeTo: "",
+            countOfParticipants: "",
+            comment: ""
+        })
+    }
+
     return (
         <div className="creation">
             <div className="input-container">
-                <input
-                    id="place-from"
-                    placeholder="Введите адрес места начала поездки"
-                    name="placeFrom"
-                    value={travelData.placeFrom}
-                    onChange={handlePlaceFrom}
-                    margin="normal"
-                />
-                <input
-                    id="place-to"
-                    placeholder="Введите адрес места назначения"
-                    name="placeTo"
-                    value={travelData.placeTo}
-                    onChange={handlePlaceTo}
-                    margin="normal"
-                />
-                {/*<input*/}
-                {/*    id="start-time"*/}
-                {/*    placeholder="Выберите дату и время начала поездки"*/}
-                {/*    name="startTime"*/}
-                {/*    value={travelData.startTime}*/}
-                {/*    onChange={handleStartTime}*/}
-                {/*    margin="normal"*/}
-                {/*/>*/}
+                <div>
+                    <input
+                        id="place-from"
+                        placeholder="Введите адрес места начала поездки"
+                        name="placeFrom"
+                        value={travelData.placeFrom}
+                        onChange={handlePlaceFrom}
+                        margin="normal"
+                    />
+                    <button type="button" className="button-create" onClick={placeFromBtnClick}>Карта</button>
+                </div>
+                <div>
+                    <input
+                        id="place-to"
+                        placeholder="Введите адрес места назначения"
+                        name="placeTo"
+                        value={travelData.placeTo}
+                        onChange={handlePlaceTo}
+                        margin="normal"
+                    />
+                    <button type="button" className="button-create" onClick={placeToBtnClick}>Карта</button>
+                </div>
                 <input
                     id="participant-count"
                     placeholder="Введите количество участников поездки"
                     name="countOfParticipants"
+                    value={travelData.countOfParticipants}
                     onChange={handleParticipants}
                     margin="normal"
                 />
@@ -158,7 +203,7 @@ const CreateAd = () => {
                     rows="5"
                 />
                 <div className="create-ad-background-container">
-                    <button type="button-create" style={{backgroundColor: "#c41519"}}>
+                    <button type="button-create" style={{backgroundColor: "#c41519"}} onClick={clearData} >
                         Отмена
                     </button>
                     <button type="button-create" onClick={createAd}>
@@ -183,22 +228,31 @@ const CreateAd = () => {
                     </>}
                     handleClose={toggleSuccessPopup}
                 />}
+                {
+                    placeFromBtnClicked ?
+                        <MapPopup
+                            placeFrom={true}
+                            placeTo={false}
+                            travelData={travelData}
+                            handleClose={placeFromBtnClick}
+                        /> : (placeToBtnClicked ? <MapPopup
+                            placeFrom={false}
+                            placeTo={true}
+                            travelData={travelData}
+                            handleClose={placeToBtnClick}
+                        /> : null)
+                }
             </div>
-            <div className="input-container" onClick={printCallback}>
-                {/*<div ref={mapRef} style={{ width: '320px', height: '240px' }}>*/}
-                {/*    <FullscreenControl />*/}
-                {/*    <GeolocationControl options={{ float: "left" }} />*/}
-                {/*    <RouteButton options={{ float: "left" }} />*/}
-                {/*</div>*/}
-                <YMaps>
-                    <Map defaultState={{ center: [55.75, 37.57], zoom: 9 }} instanceRef={mapRef}>
-                        <FullscreenControl />
-                        <GeolocationControl options={{ float: "left" }} />
-                        <RouteButton options={{ float: "left" }}/>
-                    </Map>
-                </YMaps>
 
-            </div>
+            {/*<div>*/}
+            {/*    <YMaps>*/}
+            {/*        <Map defaultState={{ center: [55.75, 37.57], zoom: 9 }} instanceRef={mapRef}>*/}
+            {/*            <FullscreenControl />*/}
+            {/*            <GeolocationControl options={{ float: "left" }} />*/}
+            {/*            <RouteButton options={{ float: "left" }}/>*/}
+            {/*        </Map>*/}
+            {/*    </YMaps>*/}
+            {/*</div>*/}
         </div>
     );
 

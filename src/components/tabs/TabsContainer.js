@@ -10,6 +10,8 @@ import LeaveAd from "../create/LeaveAd";
 import ChatPage from "../chat/ChatPage";
 import LeaveAd2 from "../create/LeaveAd2";
 import MapComponent from "../map/MapComponent";
+import {MapContainer} from "../map/MapContainer";
+import TaxiComponent from "../map/TaxiComponent";
 
 const queryClient = new QueryClient()
 const queryClientHistory = new QueryClient()
@@ -54,7 +56,8 @@ const TabsContainer = () => {
                 {/*<script src="https://api-maps.yandex.ru/2.1/?apikey=68f9761c-c819-449f-a972-5d58f3518124&lang=ru_RU"*/}
                 {/*        type="text/javascript">*/}
                 {/*</script>*/}
-                <MapComponent/>
+                {/*<MapComponent/>*/}
+                <TaxiComponent/>
             </TabPanel>
         </Tabs>
     );

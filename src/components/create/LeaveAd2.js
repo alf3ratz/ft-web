@@ -122,13 +122,6 @@ class LeaveAd2 extends Component {
                                 onClick={this.showParticipantsPopup}>
                             Попутчики
                         </button>
-                        {/*<ParticipantList participants={this.state.travelData.participants}/>*/}
-                        {/*{*/}
-                        {/*    this.state.travelData.participants === undefined ?*/}
-                        {/*        <p>Попутчики отсутствуют</p>*/}
-                        {/*        :*/}
-                        {/*        <div><ParticipantList participants={this.state.travelData.participants}/></div>*/}
-                        {/*}*/}
                         {this.state.travelData.authorEmail === this.state.userEmail ?
                             <button type="button" className="button-leave" onClick={this.toggleDeletePopup}>
                                 Удалить поездку
@@ -146,18 +139,6 @@ class LeaveAd2 extends Component {
                             travelData={this.state.travelData}
                             handleClose={this.toggleDeletePopup}
                         />}
-                        {/*<div className="leave-ad-background-container">*/}
-                        {/*    {this.state.travelData.authorEmail === userEmail ?*/}
-                        {/*        <button type="button" className="button-leave" onClick={this.state.deleteTravel}>*/}
-                        {/*            Удалить поездку*/}
-                        {/*        </button>*/}
-                        {/*        :*/}
-                        {/*        <button type="button" className="button-leave" onClick={this.state.leaveTravel}>*/}
-                        {/*            Выйти из поездки*/}
-                        {/*        </button>*/}
-                        {/*    }*/}
-                        {/*</div>*/}
-
                         {this.state.isError && <ErrorPopup
                             content={<>
                                 <b>{this.state.errorData.error_description}</b>
