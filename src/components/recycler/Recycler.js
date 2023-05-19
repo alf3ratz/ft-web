@@ -31,9 +31,10 @@ const Recycler = () => {
             if (posts[0].isIntersecting && hasNextPage) {
                 console.log('We are near the last post!')
                 fetchNextPage().then(() =>
-                    setIsLoading(false)
+                    //setIsLoading(false)
+                    console.log("1")
                 ).catch(() => {
-                    setIsLoading(false)
+                    //setIsLoading(false)
                 })
             }
             //setIsLoading(false)

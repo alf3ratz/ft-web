@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import './Post.css'
-import {currentTravelId, joinToTravel, userEmail} from "../../api/axios";
+import { joinToTravel, userEmail} from "../../api/axios";
 import ErrorPopup from "../create/ErrorPopup";
 import ValidationPopup from "../create/ValidationPopup";
 import ParticipantsPopup from "./history/ParticipantsPopup";

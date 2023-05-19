@@ -7,8 +7,8 @@ Geocode.setLanguage("ru");
 Geocode.setRegion("ru");
 Geocode.setLocationType("ROOFTOP");
 const MapPopup = props => {
-    const [isError, setIsError] = useState(false);
-    const [isSuccess, setIsSuccess] = useState(false);
+    // const [isError, setIsError] = useState(false);
+    // const [isSuccess, setIsSuccess] = useState(false);
     const [currentPosition, setCurrentPosition] = useState({});
     const [selectedPlace, setSelectedPlace] = useState({})
 
