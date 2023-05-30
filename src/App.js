@@ -2,6 +2,8 @@ import React from "react";
 import "./App.css"
 import TabsContainer from "./components/tabs/TabsContainer";
 import {initializeApp} from "firebase/app";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import LoginPage from "./components/login/LoginPage";
 
 // Import the functions you need from the SDKs you need
 // TODO: Add SDKs for Firebase products that you want to use
@@ -91,9 +93,13 @@ initializeApp(firebaseConfig);
 // }
 function App() {
     return (
-        <>
-            <TabsContainer/>
-        </>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/ft-web" element={<TabsContainer/>} />
+                <Route path="/login" element={<LoginPage/>} />
+            </Routes>
+            {/*<TabsContainer/>*/}
+        </BrowserRouter>
     );
 }
 

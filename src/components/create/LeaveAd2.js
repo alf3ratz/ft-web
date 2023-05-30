@@ -10,11 +10,13 @@ import ValidationPopup from "./ValidationPopup";
 import "./LeaveAd.css"
 import ParticipantsPopup from "../recycler/history/ParticipantsPopup";
 import LeadershipPopup from "../recycler/leadership/LeadershipPopup";
+import UpdatePopup from "./UpdatePopup";
 
 class LeaveAd2 extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isUpdateClicked:false,
             isError: false,
             isSuccess: false,
             isParticipantsClicked: false,
@@ -30,7 +32,7 @@ class LeaveAd2 extends Component {
                 startTime: "",
                 placeFrom: "",
                 placeTo: "",
-                participants:[{}],
+                participants: [{}],
                 countOfParticipants: 0,
                 comment: ""
             },
@@ -38,6 +40,7 @@ class LeaveAd2 extends Component {
         this.toggleErrorPopup = this.toggleErrorPopup.bind(this);
         this.toggleSuccessPopup = this.toggleSuccessPopup.bind(this);
         this.showParticipantsPopup = this.showParticipantsPopup.bind(this);
+        this.toggleUpdatePopup = this.toggleUpdatePopup.bind(this);
     }
 
     componentDidMount() {
@@ -59,6 +62,10 @@ class LeaveAd2 extends Component {
         let err = !this.state.isError
         this.setState({isError: err})
     }
+    toggleUpdatePopup = () =>{
+        let upd = !this.state.isUpdateClicked
+        this.setState({isUpdateClicked: upd})
+    }
 
     toggleSuccessPopup = () => {
         this.setState({isSuccess: !this.state.isSuccess})
@@ -66,7 +73,7 @@ class LeaveAd2 extends Component {
     showParticipantsPopup = () => {
         this.setState({isParticipantsClicked: !this.state.isParticipantsClicked})
     }
-    toggleDeletePopup = () =>{
+    toggleDeletePopup = () => {
         this.setState({isDeletePopupClicked: !this.state.isDeletePopupClicked})
     }
     leaveTravel = () => {
@@ -159,6 +166,18 @@ class LeaveAd2 extends Component {
                     <div>
                         <p>Вы не участвуйте ни в одной поездке</p>
                     </div>
+                }
+                <div className="current-ad-container">
+                    <button type="button" onClick={this.toggleUpdatePopup} style={{backgroundColor: "#fa7514"}}>Обновить поездку</button>
+                    <button type="button">
+                        Начать поездку
+                    </button>
+                    <button type="button">
+                        Закончить поездку
+                    </button>
+                </div>
+                {
+                    this.state.isUpdateClicked && <UpdatePopup handleClose={this.toggleUpdatePopup}/>
                 }
             </div>
         );

@@ -1,13 +1,28 @@
 import axios from 'axios'
 
-//const localUrl = 'http://localhost:8080'
-const prodUrl = 'https://ftapp-aapetropavlovskiy.b4a.run'//'https://ftapp.herokuapp.com'
+const localUrl = 'https://localhost:8080'
+const prodUrl = 'https://ftapp-386322.lm.r.appspot.com'//'https://ftapp.herokuapp.com'
 export const api = axios.create({
-    baseURL: prodUrl
+    baseURL: localUrl
 })
-export const userEmail = "aapetropavlovskiy@edu.hse.ru"
+export const straightApi = axios.create({
+    baseURL: `https://auth.hse.ru/adfs/oauth2`
+})
+export let userEmail = ""
 export var currentTravelId = 0
 export var currentChatId = 0;
+
+export const auth = async () => {
+    const respose = await api.post(`/oauth2/authorization/hse`)
+}
+export const isLogged = async (keyData = "") => {
+    const response = await api.get(`/auth/isLogged?sessionId=${keyData}`)
+    return response.data
+}
+export const authStraight = async () => {
+    await straightApi.post(`/authorize?response_type=code&client_id=fe0df921-754d-45e8-8d48-1fcef2d91df8&state=kzFIq4EQ42EfTyfi7mADR7bPVZLuTY8GA6WoOF2qFjI%3D&redirect_uri=https://www.ft-app.online/auth/hse_redirect&code_challenge=9tMZlNKYfBooutc39bhUWAGiXOX_BsxxYC3NqVZfvpU&code_challenge_method=S256
+`)
+}
 
 export const getAllTravels = async (pageParam = 0, options = {}) => {
     const response = await api.get(`/api/travel/getAllTravels?offset=${pageParam}&limit=10`, options)
@@ -37,6 +52,28 @@ export const createTravel = async (authorEmail = "",
         headers: {"content-type": "application/json"}
     }
     const response = await api.post(`/api/travel/createTravel`, data, options)
+    return response.data.content
+}
+export const updateTravel = async (authorEmail = "",
+                                   placeFrom = "",
+                                   placeTo = "",
+                                   startTime = "",
+                                   countOfParticipants = 1,
+                                   comment = "") => {
+    const data = JSON.stringify(
+        {
+            authorEmail: authorEmail,
+            placeFrom: placeFrom,
+            placeTo: placeTo,
+            startTime: startTime,
+            countOfParticipants: countOfParticipants,
+            comment: comment
+        }
+    );
+    const options = {
+        headers: {"content-type": "application/json"}
+    }
+    const response = await api.post(`/api/travel/updateTravel`, data, options)
     return response.data.content
 }
 
@@ -111,3 +148,5 @@ export const setLeadershipToParticipant = async (travelId = 0, participantEmail 
     const response = await api.post(`/api/travel/setLeadershipToParticipant`, data, options)
     return response;
 }
+
+export default userEmail;
