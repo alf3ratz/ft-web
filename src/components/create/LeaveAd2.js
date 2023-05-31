@@ -50,10 +50,11 @@ class LeaveAd2 extends Component {
             .then((response) => {
                 let data = response.data
                 let currUserLocal = JSON.parse(localStorage.getItem('user_info'))
-                this.setState({travelData: data, currentEmail: currUser.email})
+                this.setState({travelData: data})
                 // this.setState({currentEmail: currUserLocal.email.toString()})
                 // console.log(`usEm: ${this.state.currentEmail}`)
                 // console.log(`usEm: ${typeof (currUserLocal.email)}`)
+                console.log(`authEm: ${this.state.travelData.authorEmail}`)
                 if (this.state.travelData.authorEmail === currUserLocal.email) {
                     //isUserAuthor = true
                     localStorage.setItem('is_user_author', JSON.stringify({isAuthor: true}));
@@ -159,6 +160,12 @@ class LeaveAd2 extends Component {
     }
 
     render() {
+        if (this.state.travelData.authorEmail === JSON.parse(localStorage.getItem('user_info')).email) {
+            //isUserAuthor = true
+            localStorage.setItem('is_user_author', JSON.stringify({isAuthor: true}));
+        } else {
+            localStorage.setItem('is_user_author', JSON.stringify({isAuthor: false}));
+        }
         return (
             <div>
                 {this.state.travelData.id !== 0 ?

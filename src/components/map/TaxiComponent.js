@@ -14,7 +14,8 @@ const TaxiComponent = () => {
 
         script.src = "//yastatic.net/taxi-widget/ya-taxi-widget.js";
         script.async = true;
-
+        let er = JSON.parse(localStorage.getItem('is_user_author'))
+        console.log(`blqwr: ${er.isAuthor}`)
         document.body.appendChild(script);
 
         return () => {
