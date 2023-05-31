@@ -8,10 +8,10 @@ export const api = axios.create({
 export const straightApi = axios.create({
     baseURL: `https://auth.hse.ru/adfs/oauth2`
 })
-export let userEmail = ""
+export let userEmail
 export var currentTravelId = 0
 export var currentChatId = 0;
-
+export let isUserAuthor = false
 export const auth = async () => {
     const respose = await api.post(`/oauth2/authorization/hse`)
 }
@@ -22,6 +22,14 @@ export const isLogged = async (keyData = "") => {
 export const authStraight = async () => {
     await straightApi.post(`/authorize?response_type=code&client_id=fe0df921-754d-45e8-8d48-1fcef2d91df8&state=kzFIq4EQ42EfTyfi7mADR7bPVZLuTY8GA6WoOF2qFjI%3D&redirect_uri=https://www.ft-app.online/auth/hse_redirect&code_challenge=9tMZlNKYfBooutc39bhUWAGiXOX_BsxxYC3NqVZfvpU&code_challenge_method=S256
 `)
+}
+export const startTravel = async (travelId = 0) => {
+    const response = await api.post(`/api/travel/startTravel?travelId=${travelId}`)
+    return response
+}
+export const stopTravel = async (travelId = 0) => {
+    const response = await api.post(`/api/travel/stopTravel?travelId=${travelId}`)
+    return response
 }
 
 export const getAllTravels = async (pageParam = 0, options = {}) => {

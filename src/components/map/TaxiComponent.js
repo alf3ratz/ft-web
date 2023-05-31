@@ -3,6 +3,7 @@ import Cookies from "universal-cookie";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import TabsContainer from "../tabs/TabsContainer";
 import LoginPage from "../login/LoginPage";
+import {isUserAuthor} from "../../api/axios";
 
 
 const cookies = new Cookies()
@@ -21,19 +22,21 @@ const TaxiComponent = () => {
         }
     }, [])
     const exit = () => {
-        cookies.set('isAuth', false, {path: '/'})
-        console.log('logged out!')
+        localStorage.setItem('user_info', null);
         setIsExit(true);
+        window.location.reload()
     }
     return (
         <div>
-            <div class="ya-taxi-widget"
-                 data-size="s"
-                 data-theme="normal"
-                 data-title="На&nbsp;такси в&nbsp;Яндекс"
-                 data-point-b="37.58814349999998,55.73384256900978"
-                 data-use-location="true">
-            </div>
+            {JSON.parse(localStorage.getItem('is_user_author')).isAuthor === true &&
+                <div className="ya-taxi-widget"
+                     data-size="s"
+                     data-theme="normal"
+                     data-title="На&nbsp;такси в&nbsp;Яндекс"
+                     data-point-b="37.58814349999998,55.73384256900978"
+                     data-use-location="true">
+                </div>
+            }
             <button onClick={exit}>Выйти</button>
             {
                 isExit &&

@@ -1,9 +1,12 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import './Post.css'
-import { joinToTravel, userEmail} from "../../api/axios";
+import {joinToTravel, userEmail} from "../../api/axios";
 import ErrorPopup from "../create/ErrorPopup";
 import ValidationPopup from "../create/ValidationPopup";
 import ParticipantsPopup from "./history/ParticipantsPopup";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies()
 
 const Post = React.forwardRef(({post}, ref) => {
     const [isError, setIsError] = useState(false);
@@ -13,6 +16,7 @@ const Post = React.forwardRef(({post}, ref) => {
         error: "",
         error_description: "",
     });
+    const [currentUser, setCurrentUser] = useState("")
     const [travelData] = useState({
         id: 0,
         authorEmail: "",
@@ -23,7 +27,11 @@ const Post = React.forwardRef(({post}, ref) => {
         participants: [{}],
         comment: ""
     });
-
+    useEffect(() => {
+        let currUser = JSON.parse(localStorage.getItem('user_info'))
+        setCurrentUser(currUser.email)
+        console.log(`curr user: ${currUser.email}`)
+    });
     const toggleErrorPopup = () => {
         setIsError(!isError);
     }
@@ -66,7 +74,7 @@ const Post = React.forwardRef(({post}, ref) => {
             <p>Адрес назначения: {post.placeTo}</p>
             <p>Количество попутчиков: {post.countOfParticipants}</p>
             <p>Дополнительная информация: {post.comment}</p>
-            {post.authorEmail === userEmail ?
+            {post.authorEmail === currentUser ?
                 <div></div>
                 :
                 <button type="button" className="button-join" onClick={joinTravel}>

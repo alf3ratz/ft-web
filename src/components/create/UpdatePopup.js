@@ -38,7 +38,7 @@ const UpdatePopup = props => {
     }
     const [dt, setDt] = useState(moment());
     const [travelData, setTravelData] = useState({
-        authorEmail: "aapetropavlovskiy@edu.hse.ru",
+        authorEmail: JSON.parse(localStorage.getItem('user_info')).email,
         startTime: "",
         placeFrom: "",
         placeTo: "",
@@ -69,9 +69,9 @@ const UpdatePopup = props => {
         return isNaN(travelData.countOfParticipants) || travelData.countOfParticipants >= 5 || travelData.countOfParticipants <= 0
     }
     const updateAd = () => {
-        if(validateValues()){
+        if (validateValues()) {
             toggleValidationPopup();
-        }else{
+        } else {
             //updateTravel()
         }
         // if (validateValues()) {
@@ -97,9 +97,9 @@ const UpdatePopup = props => {
         //     })
         // }
     }
-    const clearData = () =>{
+    const clearData = () => {
         setTravelData({
-            authorEmail: "aapetropavlovskiy@edu.hse.ru",
+            authorEmail: JSON.parse(localStorage.getItem('user_info')).email,
             startTime: "",
             placeFrom: "",
             placeTo: "",

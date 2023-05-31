@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {createTravel} from "../../api/axios";
+import {createTravel, isUserAuthor, userEmail} from "../../api/axios";
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
@@ -62,7 +62,7 @@ const CreateAd = () => {
     }
     const [dt, setDt] = useState(moment());
     const [travelData, setTravelData] = useState({
-        authorEmail: "aapetropavlovskiy@edu.hse.ru",
+        authorEmail: JSON.parse(localStorage.getItem('user_info')).email,
         startTime: "",
         placeFrom: "",
         placeTo: "",
@@ -98,14 +98,14 @@ const CreateAd = () => {
     }
     const validateValues = () => {
         return isNaN(travelData.countOfParticipants) || travelData.countOfParticipants >= 5 || travelData.countOfParticipants <= 0
+    || JSON.parse(localStorage.getItem('user_info')).email === undefined
     }
     const createAd = () => {
         if (validateValues()) {
             toggleValidationPopup()
         } else {
-            //setTravelData({...travelData, "startTime": dt.toISOString().replace("Z", "")});
             console.log(travelData.startTime)
-            createTravel(travelData.authorEmail,
+            createTravel(JSON.parse(localStorage.getItem('user_info')).email,
                 travelData.placeFrom,
                 travelData.placeTo,
                 travelData.startTime,
@@ -121,6 +121,8 @@ const CreateAd = () => {
                     setErrorData({...errorData, ...errorObj})
                     togglePopup()
                 }
+            }).finally(()=>{
+                localStorage.setItem('is_user_author', JSON.stringify({ isAuthor: true}));
             })
         }
     }
@@ -133,7 +135,7 @@ const CreateAd = () => {
     }
     const clearData = () =>{
         setTravelData({
-            authorEmail: "aapetropavlovskiy@edu.hse.ru",
+            authorEmail: JSON.parse(localStorage.getItem('user_info')).email,
             startTime: "",
             placeFrom: "",
             placeTo: "",

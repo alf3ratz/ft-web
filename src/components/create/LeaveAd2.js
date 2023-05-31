@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import {
     deleteTravel,
-    getTravelByEmail,
-    leaveFromTravel,
-    userEmail
+    getTravelByEmail, isUserAuthor,
+    leaveFromTravel, startTravel, stopTravel
 } from "../../api/axios";
 import ErrorPopup from "./ErrorPopup";
 import ValidationPopup from "./ValidationPopup";
@@ -16,12 +15,13 @@ class LeaveAd2 extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isUpdateClicked:false,
+            isUpdateClicked: false,
             isError: false,
             isSuccess: false,
+            isSuccessStop: false,
+            currentEmail: {},
             isParticipantsClicked: false,
             isDeletePopupClicked: false,
-            userEmail: userEmail,
             errorData: {
                 error: "",
                 error_description: "",
@@ -41,13 +41,25 @@ class LeaveAd2 extends Component {
         this.toggleSuccessPopup = this.toggleSuccessPopup.bind(this);
         this.showParticipantsPopup = this.showParticipantsPopup.bind(this);
         this.toggleUpdatePopup = this.toggleUpdatePopup.bind(this);
+        this.toggleSuccessStopPopup = this.toggleSuccessStopPopup.bind(this);
     }
 
     componentDidMount() {
-        getTravelByEmail(userEmail)
+        let currUser = JSON.parse(localStorage.getItem('user_info'))
+        getTravelByEmail(currUser.email)
             .then((response) => {
                 let data = response.data
-                this.setState({travelData: data})
+                let currUserLocal = JSON.parse(localStorage.getItem('user_info'))
+                this.setState({travelData: data, currentEmail: currUser.email})
+                // this.setState({currentEmail: currUserLocal.email.toString()})
+                // console.log(`usEm: ${this.state.currentEmail}`)
+                // console.log(`usEm: ${typeof (currUserLocal.email)}`)
+                if (this.state.travelData.authorEmail === currUserLocal.email) {
+                    //isUserAuthor = true
+                    localStorage.setItem('is_user_author', JSON.stringify({isAuthor: true}));
+                } else {
+                    localStorage.setItem('is_user_author', JSON.stringify({isAuthor: false}));
+                }
             }).catch(function (error) {
             if (error.response) {
                 let jsonString = JSON.stringify(error.response.data)
@@ -62,13 +74,16 @@ class LeaveAd2 extends Component {
         let err = !this.state.isError
         this.setState({isError: err})
     }
-    toggleUpdatePopup = () =>{
+    toggleUpdatePopup = () => {
         let upd = !this.state.isUpdateClicked
         this.setState({isUpdateClicked: upd})
     }
 
     toggleSuccessPopup = () => {
         this.setState({isSuccess: !this.state.isSuccess})
+    }
+    toggleSuccessStopPopup = () => {
+        this.setState({isSuccessStop: !this.state.isSuccessStop})
     }
     showParticipantsPopup = () => {
         this.setState({isParticipantsClicked: !this.state.isParticipantsClicked})
@@ -78,7 +93,8 @@ class LeaveAd2 extends Component {
     }
     leaveTravel = () => {
         console.log("leaved")
-        leaveFromTravel(this.state.userEmail,
+        let currUser = JSON.parse(localStorage.getItem('user_info'))
+        leaveFromTravel(currUser.email,
             this.state.travelData.id)
             .then((response) => {
                 this.toggleSuccessPopup()
@@ -111,6 +127,36 @@ class LeaveAd2 extends Component {
                 }
             }.bind(this));
     }
+    start = () => {
+        startTravel(this.state.travelData.id)
+            .then((response) => {
+                //this.toggleSuccessPopup()
+                //setTravelData({...travelData, response})
+            })
+            .catch(function (error) {
+                if (error.response) {
+                    let jsonString = JSON.stringify(error.response.data)
+                    let errorObj = JSON.parse(jsonString)
+                    this.setState({errorData: errorObj})
+                    this.toggleErrorPopup()
+                }
+            }.bind(this));
+    }
+    stop = () => {
+        stopTravel(this.state.travelData.id)
+            .then((response) => {
+                this.toggleSuccessStopPopup()
+                //setTravelData({...travelData, response})
+            })
+            .catch(function (error) {
+                if (error.response) {
+                    let jsonString = JSON.stringify(error.response.data)
+                    let errorObj = JSON.parse(jsonString)
+                    this.setState({errorData: errorObj})
+                    this.toggleErrorPopup()
+                }
+            }.bind(this));
+    }
 
     render() {
         return (
@@ -126,7 +172,7 @@ class LeaveAd2 extends Component {
                                 onClick={this.showParticipantsPopup}>
                             Попутчики
                         </button>
-                        {this.state.travelData.authorEmail === this.state.userEmail ?
+                        {this.state.travelData.authorEmail === JSON.parse(localStorage.getItem('user_info')).email ?
                             <button type="button" className="button-leave" onClick={this.toggleDeletePopup}>
                                 Удалить поездку
                             </button>
@@ -151,7 +197,7 @@ class LeaveAd2 extends Component {
                         />}
                         {this.state.isSuccess && <ValidationPopup
                             content={<>
-                                {this.state.travelData.authorEmail === userEmail ?
+                                {this.state.travelData.authorEmail === JSON.parse(localStorage.getItem('user_info')).email ?
                                     <b>
                                         Вы удалили поездку
                                     </b> :
@@ -161,23 +207,37 @@ class LeaveAd2 extends Component {
                             </>}
                             handleClose={this.toggleSuccessPopup}
                         />}
+                        {this.state.isSuccessStop && <ValidationPopup
+                            content={<>
+                                <b>
+                                    Вы завершили поездку
+                                </b>
+                            </>}
+                            handleClose={this.toggleSuccessStopPopup}
+                        />}
+
                     </div>
                     :
                     <div>
                         <p>Вы не участвуйте ни в одной поездке</p>
                     </div>
                 }
-                <div className="current-ad-container">
-                    <button type="button" onClick={this.toggleUpdatePopup} style={{backgroundColor: "#fa7514"}}>Обновить поездку</button>
-                    <button type="button">
-                        Начать поездку
-                    </button>
-                    <button type="button">
-                        Закончить поездку
-                    </button>
-                </div>
-                {
-                    this.state.isUpdateClicked && <UpdatePopup handleClose={this.toggleUpdatePopup}/>
+                {this.state.travelData.authorEmail === JSON.parse(localStorage.getItem('user_info')).email ?
+                    <div className="current-ad-container">
+                        <button type="button" onClick={this.toggleUpdatePopup}
+                                style={{backgroundColor: "#fa7514"}}>Обновить поездку
+                        </button>
+                        <button type="button" onClick={this.start}>
+                            Начать поездку
+                        </button>
+                        <button type="button" onClick={this.stop}>
+                            Закончить поездку
+                        </button>
+                        {
+                            this.state.isUpdateClicked && <UpdatePopup handleClose={this.toggleUpdatePopup}/>
+                        }
+                    </div>
+                    : null
                 }
             </div>
         );

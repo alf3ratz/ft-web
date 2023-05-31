@@ -12,6 +12,7 @@ import TaxiComponent from "../map/TaxiComponent";
 import LoginPage from "../login/LoginPage";
 import Cookies from 'universal-cookie';
 import {Link} from "react-router-dom";
+import userEmail from "../../api/axios";
 
 const globalCookies = new Cookies()
 const queryClient = new QueryClient()
@@ -19,16 +20,24 @@ const queryClientHistory = new QueryClient()
 
 const TabsContainer = () => {
     const [isUserLogged, setIsUserLogged] = useState(false);
+    const [userEmail, setUserEmail] = useState("")
     useEffect(() => {
-        let isLogged = globalCookies.get('isAuth')
-        if (isLogged) {
-            console.log('logged!')
-            setIsUserLogged(true)
+        try {
+            if (localStorage.getItem('user_info') !== undefined || localStorage.getItem('user_info') !== null) {
+                let isLogged = JSON.parse(localStorage.getItem('user_info'))
+                if (isLogged.logged) {
+                    console.log('logged!')
+                    setIsUserLogged(true)
+                    setUserEmail(isLogged.email)
+                }
+            }
+        } catch (e) {
+
         }
     })
     return (
         <div>
-            {isUserLogged === true &&
+            {isUserLogged === false ? <LoginPage/> :
                 <Tabs className="tabs">
                     <TabList style={{display: 'flex', alignItems: 'center'}}>
                         <Tab className="tab">Доступные поездки</Tab>
@@ -72,7 +81,6 @@ const TabsContainer = () => {
                     </TabPanel>
                 </Tabs>
             }
-            {isUserLogged === false && <Link to="/login" ></Link>}
         </div>)
         ;
 };

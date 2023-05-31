@@ -93,13 +93,7 @@ initializeApp(firebaseConfig);
 // }
 function App() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/ft-web" element={<TabsContainer/>} />
-                <Route path="/login" element={<LoginPage/>} />
-            </Routes>
-            {/*<TabsContainer/>*/}
-        </BrowserRouter>
+        <TabsContainer/>
     );
 }
 

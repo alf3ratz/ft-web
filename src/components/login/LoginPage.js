@@ -34,10 +34,13 @@ const LoginPage = () => {
             .then(data => {
                 console.log(data)
                 console.log(data.logged)
+                // localStorage.setItem('user_info', JSON.stringify(data));
+                // console.log(`saved: ${ localStorage.getItem('user_info')}`)
                 if (data.logged) {
-                    setIsSuccessLogged(!isSuccessLogged)
-                    cookies.set('isAuth', true, {path: '/'})
+                    setIsSuccessLogged(true)
+                    localStorage.setItem('user_info', JSON.stringify(data));
                     userEmail = data.email
+                    //console.log(`saved: ${ localStorage.getItem('user_info')}`)
                 }else{
                     toggleErrorPopup()
                 }
@@ -45,6 +48,8 @@ const LoginPage = () => {
             if (error.response) {
                 console.log(`err: ${error.response}`)
             }
+        }).finally(()=>{
+            window.location.reload()
         })
     }
     useMessage('hello', (send, payload) => {
@@ -236,7 +241,7 @@ const LoginPage = () => {
                 {
                     isSuccessLogged &&
                     // <TabsContainer/>
-                    <Link to="/ft-web" ></Link>
+                    <TabsContainer/>
                     // <Routes>
                     //     <Route path="/ft-web" component={TabsContainer} />
                     // </Routes>

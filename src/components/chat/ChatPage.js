@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 
 import {Input, List, Layout} from 'antd';
 import {UserOutlined} from '@ant-design/icons';
-import {getMessagesByChat, getTravelByEmail, sendMessageToChat, userEmail} from "../../api/axios";
+import {getMessagesByChat, getTravelByEmail, sendMessageToChat} from "../../api/axios";
 import ErrorPopup from "../create/ErrorPopup";
 // import './chat-page.styles.css';
 
@@ -12,6 +12,7 @@ const ChatPage = () => {
     const [isChatReceived, setChatReceived] = useState(false)
     const [chatId, setChatId] = useState(0);
     const [message, setMessage] = useState("")
+    const [userEmail, setUserEmail] = useState("")
     const [isInputDisabled, setInputDisabled] = useState(false);
     const [messagesData, setMessagesData] = useState([{}]);
     const [errorData, setErrorData] = useState({
@@ -36,8 +37,9 @@ const ChatPage = () => {
     //     setInterval(yourFunction, 300000); // The function will be called
     // },[]);
     useEffect(() => {
+        let currUser = JSON.parse(localStorage.getItem('user_info'))
         if (!isChatReceived) {
-            getTravelByEmail(userEmail).then((response) => {
+            getTravelByEmail(currUser.email).then((response) => {
                 setChatId(response.data.chatId)
             }).catch(function (error) {
                 if (error.response) {
@@ -71,7 +73,7 @@ const ChatPage = () => {
     // }
 
     const sendMessage = () => {
-        sendMessageToChat(chatId, userEmail, message).then((response) => {
+        sendMessageToChat(chatId, JSON.parse(localStorage.getItem('user_info')).email, message).then((response) => {
             }
         ).finally(() => {
             getAllMessages()
@@ -102,9 +104,9 @@ const ChatPage = () => {
                             renderItem={item => (
                                 <List.Item
                                     className={
-                                        item.sender === userEmail ? 'message-ours' : 'message-other'
+                                        item.sender === JSON.parse(localStorage.getItem('user_info')).email ? 'message-ours' : 'message-other'
                                     }
-                                    background={item.sender === userEmail ? '#fff' : '#64a7ff'}
+                                    background={item.sender === JSON.parse(localStorage.getItem('user_info')).email ? '#fff' : '#64a7ff'}
                                 >
                                     <List.Item.Meta
                                         title={

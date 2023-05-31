@@ -6,7 +6,6 @@ import HistoryPost from "./HistoryPost";
 import "./../Recycler.css"
 
 
-
 const HistoryRecycler = () => {
     //const [isLoading, setIsLoading] = useState(false);
 
@@ -17,7 +16,7 @@ const HistoryRecycler = () => {
         data,
         status,
         error
-    } = useInfiniteQuery('/api/travel/getTravelHistoryByAuthor', ({pageParam = 1}) => getTravelHistory(pageParam, userEmail), {
+    } = useInfiniteQuery('/api/travel/getTravelHistoryByAuthor', ({pageParam = 1}) => getTravelHistory(pageParam, JSON.parse(localStorage.getItem('user_info')).email), {
         getNextPageParam: (lastPage, allPages) => lastPage.nextCursor,
     })
 
@@ -32,10 +31,10 @@ const HistoryRecycler = () => {
             if (posts[0].isIntersecting && hasNextPage) {
                 console.log('We are near the last post!')
                 fetchNextPage().then(() =>
-                   // setIsLoading(false)
+                    // setIsLoading(false)
                     console.log('1')
                 ).catch(() => {
-                   // setIsLoading(false)
+                    // setIsLoading(false)
                 })
             }
             //setIsLoading(false)
@@ -57,7 +56,8 @@ const HistoryRecycler = () => {
     return (
         <>
             {isFetchingNextPage ? <LoadingSpinner/> : content}
-            <p className="center"><a href="src/components/recycler/history/HistoryRecycler.js">Вернуться в начало</a></p>
+            <p className="center"><a href="src/components/recycler/history/HistoryRecycler.js">Вернуться в начало</a>
+            </p>
         </>
     )
 }
