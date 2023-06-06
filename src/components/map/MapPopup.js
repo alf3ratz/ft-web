@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import Geocode from "react-geocode";
 import {GoogleMap, LoadScript, Marker} from "@react-google-maps/api";
 import "./../recycler/history/ParticipantsPopup.css"
+
 Geocode.setApiKey("AIzaSyAlU7dQOD7g_akB45yegjUIQepuVXmyP2w");
 Geocode.setLanguage("ru");
 Geocode.setRegion("ru");
@@ -39,10 +40,15 @@ const MapPopup = props => {
         setSelectedPlace(latLon)
         if (props.placeFrom) {
             props.travelData.placeFrom = e.latLng.toString()
+            props.travelData.placeFromCoords = {lat: `${latLon.lat().toString()}`, lon: `${latLon.lng().toString()}`}
             Geocode.fromLatLng(latLon.lat(), latLon.lng()).then(
                 (response) => {
                     const address = response.results[0].formatted_address;
                     props.travelData.placeFrom = address
+                    localStorage.setItem('coords_from', JSON.stringify({
+                        startLat: latLon.lat(),
+                        startLon: latLon.lng()
+                    }));
                     console.log(address);
                 },
                 (error) => {
@@ -52,10 +58,12 @@ const MapPopup = props => {
         }
         if (props.placeTo) {
             props.travelData.placeTo = e.latLng.toString()
+            props.travelData.placeToCoords = {lat: latLon.lat().toString(), lon: latLon.lng().toString()}
             Geocode.fromLatLng(latLon.lat(), latLon.lng()).then(
                 (response) => {
                     const address = response.results[0].formatted_address;
                     props.travelData.placeTo = address
+                    localStorage.setItem('coords_to', JSON.stringify({stopLat: latLon.lat(), stopLon: latLon.lng()}));
                     console.log(address);
                 },
                 (error) => {

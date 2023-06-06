@@ -45,6 +45,8 @@ export const createTravel = async (authorEmail = "",
                                    placeTo = "",
                                    startTime = "",
                                    countOfParticipants = 1,
+                                   placeFromCoords={},
+                                   placeToCoords={},
                                    comment = "") => {
     const data = JSON.stringify(
         {
@@ -53,6 +55,8 @@ export const createTravel = async (authorEmail = "",
             placeTo: placeTo,
             startTime: startTime,
             countOfParticipants: countOfParticipants,
+            placeToCoords:placeToCoords,
+            placeFromCoords:placeFromCoords,
             comment: comment
         }
     );

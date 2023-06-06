@@ -41,14 +41,14 @@ const LoginPage = () => {
                     localStorage.setItem('user_info', JSON.stringify(data));
                     userEmail = data.email
                     //console.log(`saved: ${ localStorage.getItem('user_info')}`)
-                }else{
+                } else {
                     toggleErrorPopup()
                 }
             }).catch(function (error) {
             if (error.response) {
                 console.log(`err: ${error.response}`)
             }
-        }).finally(()=>{
+        }).finally(() => {
             window.location.reload()
         })
     }
@@ -200,55 +200,69 @@ const LoginPage = () => {
     }
     return (
         <div>
-                {!isHrefClicked
-                    ?
-                    <div>
-                        <a href='https://localhost:8080/oauth2/authorization/hse' target="_blank" onClick={authorize}>
-                            Авторизация
-                        </a>
-                    </div>
-                    :
-                    <div>
-                        <input
-                            id="input-key"
-                            placeholder="Введите код авторизации"
-                            name="countOfParticipants"
-                            value={keyData}
-                            onChange={handleKeyData}
-                            margin="normal"
-                        />
-                        <button onClick={successLogged}>
-                            Отправить
-                        </button>
-                    </div>
-                }
+            {!isHrefClicked
+                ?
+                <div
+                    style={{
+                        marginTop: '10%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <a href='https://localhost:8080/oauth2/authorization/hse' target="_blank" onClick={authorize}>
+                        Авторизация
+                    </a>
+                </div>
+                :
+                <div
+                    style={{
+                        marginTop: '10%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <input
+                        id="input-key"
+                        placeholder="Введите код авторизации"
+                        name="countOfParticipants"
+                        value={keyData}
+                        onChange={handleKeyData}
+                        margin="normal"
+                    />
+                    <button onClick={successLogged}>
+                        Отправить
+                    </button>
+                </div>
+            }
 
-                {/*<button onClick={deleteCookie}>*/}
-                {/*    Удалить куки*/}
-                {/*</button>*/}
-                {isErrorPopup && <ErrorPopup
-                    content={<>
-                        <b>Не удалось авторизоваться</b>
-                    </>}
-                    handleClose={toggleErrorPopup}
-                />}
-                {isSuccessPopup && <ValidationPopup
-                    content={<>
-                        <b>Вы успешно авторизовались</b>
-                    </>}
-                    handleClose={toggleSuccessPopup}
-                />}
-                {
-                    isSuccessLogged &&
-                    // <TabsContainer/>
-                    <TabsContainer/>
-                    // <Routes>
-                    //     <Route path="/ft-web" component={TabsContainer} />
-                    // </Routes>
-                    // <Routes>
-                    //     <Route exact path='/' element={<TabsContainer/>}></Route>
-                    // </Routes>
-                }
+            {/*<button onClick={deleteCookie}>*/}
+            {/*    Удалить куки*/}
+            {/*</button>*/}
+            {isErrorPopup && <ErrorPopup
+                content={<>
+                    <b>Не удалось авторизоваться</b>
+                </>}
+                handleClose={toggleErrorPopup}
+            />}
+            {isSuccessPopup && <ValidationPopup
+                content={<>
+                    <b>Вы успешно авторизовались</b>
+                </>}
+                handleClose={toggleSuccessPopup}
+            />}
+            {
+                isSuccessLogged &&
+                // <TabsContainer/>
+                <TabsContainer/>
+                // <Routes>
+                //     <Route path="/ft-web" component={TabsContainer} />
+                // </Routes>
+                // <Routes>
+                //     <Route exact path='/' element={<TabsContainer/>}></Route>
+                // </Routes>
+            }
         </div>
     )
 }

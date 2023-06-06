@@ -55,8 +55,18 @@ class LeaveAd2 extends Component {
                 // console.log(`usEm: ${this.state.currentEmail}`)
                 // console.log(`usEm: ${typeof (currUserLocal.email)}`)
                 console.log(`authEm: ${this.state.travelData.authorEmail}`)
-                if (this.state.travelData.authorEmail === currUserLocal.email) {
+                if (data.authorEmail === currUserLocal.email) {
                     //isUserAuthor = true
+                    if (data.placeFromCoords) {
+                        localStorage.setItem('coords_from', JSON.stringify({
+                            startLat: data.placeFromCoords.lat,
+                            startLon: data.placeFromCoords.lon
+                        }));
+                        localStorage.setItem('coords_to', JSON.stringify({
+                            stopLat: data.placeToCoords.lat,
+                            stopLon: data.placeToCoords.lon
+                        }));
+                    }
                     localStorage.setItem('is_user_author', JSON.stringify({isAuthor: true}));
                 } else {
                     localStorage.setItem('is_user_author', JSON.stringify({isAuthor: false}));

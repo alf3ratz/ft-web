@@ -67,6 +67,14 @@ const CreateAd = () => {
         placeFrom: "",
         placeTo: "",
         countOfParticipants: "",
+        placeFromCoords: {
+            lat: "",
+            lon: ""
+        },
+        placeToCoords: {
+            lat: "",
+            lon: ""
+        },
         comment: ""
     });
     const handlePlaceFrom = (event) => {
@@ -88,7 +96,7 @@ const CreateAd = () => {
     // }
     const handleParticipants = (event) => {
         const {value} = event.target;
-        if(!isNaN(value)){
+        if (!isNaN(value)) {
             setTravelData({...travelData, "countOfParticipants": Number(value)});
         }
     }
@@ -98,18 +106,20 @@ const CreateAd = () => {
     }
     const validateValues = () => {
         return isNaN(travelData.countOfParticipants) || travelData.countOfParticipants >= 5 || travelData.countOfParticipants <= 0
-    || JSON.parse(localStorage.getItem('user_info')).email === undefined
+            || JSON.parse(localStorage.getItem('user_info')).email === undefined
     }
     const createAd = () => {
         if (validateValues()) {
             toggleValidationPopup()
         } else {
-            console.log(travelData.startTime)
+            console.log(travelData)
             createTravel(JSON.parse(localStorage.getItem('user_info')).email,
                 travelData.placeFrom,
                 travelData.placeTo,
                 travelData.startTime,
                 travelData.countOfParticipants,
+                travelData.placeFromCoords,
+                travelData.placeToCoords,
                 travelData.comment)
                 .then((response) => {
                     //setUsers(respose.data)
@@ -121,8 +131,8 @@ const CreateAd = () => {
                     setErrorData({...errorData, ...errorObj})
                     togglePopup()
                 }
-            }).finally(()=>{
-                localStorage.setItem('is_user_author', JSON.stringify({ isAuthor: true}));
+            }).finally(() => {
+                localStorage.setItem('is_user_author', JSON.stringify({isAuthor: true}));
             })
         }
     }
@@ -133,7 +143,7 @@ const CreateAd = () => {
     const placeToBtnClick = () => {
         setPlaceToBtnClicked(!placeToBtnClicked)
     }
-    const clearData = () =>{
+    const clearData = () => {
         setTravelData({
             authorEmail: JSON.parse(localStorage.getItem('user_info')).email,
             startTime: "",
@@ -200,7 +210,7 @@ const CreateAd = () => {
                     rows="5"
                 />
                 <div className="create-ad-background-container">
-                    <button type="button-create" style={{backgroundColor: "#c41519"}} onClick={clearData} >
+                    <button type="button-create" style={{backgroundColor: "#c41519"}} onClick={clearData}>
                         Отмена
                     </button>
                     <button type="button-create" onClick={createAd}>
